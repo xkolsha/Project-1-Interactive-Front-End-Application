@@ -4,7 +4,7 @@ unsplashUrl = 'https://api.unsplash.com/photos/random?client_id=';
 
 // call the unSplash API to fetch an image from a URL
 fetch(unsplashUrl + unSplashKey)
-    .then(response => response.json());
+    .then(response => response.json())
     .then(data => {
         var imageLink = data.urls.regular;
         var image = new Image();
