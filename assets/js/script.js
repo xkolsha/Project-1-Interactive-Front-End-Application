@@ -30,3 +30,7 @@ unsplashUrl = 'https://api.unsplash.com/photos/random?client_id=';
 //     function generatePallet(image) {
 
 //     }
+
+var imageUrl = []
+
+fetch(imageUrl + '?client_id' + unSplashKey)
