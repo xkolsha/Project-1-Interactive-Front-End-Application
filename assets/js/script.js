@@ -79,12 +79,14 @@ function setColorForRandomFill() {
     tile.textContent = randomColor;
 
     // Calculate the brightness of the background color to determine if it's light or dark
+    // https://en.wikipedia.org/wiki/Relative_luminance this is for the README file
+    // https://www.w3schools.com/jsref/jsref_slice_string.asp this is for the README file
+    // https://www.colorhexa.com/002e63 this is for the README file
+    // #RRGGBB (e.g. #002e63) represents RGB color; each 2-digit hex like 00,2e or 63 converts to decimal via (16*1st digit + 1*2nd digit), the maximum is 255 (FF)
     var r = parseInt(randomColor.slice(0, 2), 16);
     var g = parseInt(randomColor.slice(2, 4), 16);
     var b = parseInt(randomColor.slice(4, 6), 16);
     var brightness = Math.round((r * 299 + g * 587 + b * 114) / 1000);
-    // https://en.wikipedia.org/wiki/Relative_luminance this is for the README file
-    // https://www.w3schools.com/jsref/jsref_slice_string.asp this is for the README file
 
     // If the background color is light, make the text color dark, and vice versa
     if (brightness > 125) {
