@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Color Pallet Generator</title>
+    <title>Document</title>
     <link rel="stylesheet" href="./assets/css/reset.css" />
     <link rel="stylesheet" href="./assets/css/normalize.css" />
     <link
@@ -59,7 +59,7 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-primary">
+              <a class="button is-link">
                 <strong>Sign up</strong>
               </a>
               <a class="button is-light"> Log in </a>
@@ -72,180 +72,95 @@
       <div class="hero-body">
         <p class="title">Hero title</p>
         <p class="subtitle">Hero subtitle</p>
-        <input id="generatePallet" class="button is-primary" placeholder="###">
+        <div class="field">
+          <label class="label">Enter a color (hex code)</label>
+          <div class="control">
+            <input
+              id="color-input"
+              class="input"
+              type="text"
+              placeholder="e.g., 002e63"
+            />
+          </div>
+        </div>
+        <div class="control">
+          <button id="generate-btn" class="button is-link">
+            Generate Palette
+          </button>
+        </div>
       </div>
     </section>
     <section class="section is-large">
-      <h1 class="title">Large section</h1>
+      <h1 class="title">Example</h1>
       <h2 class="subtitle">
-        A simple container to divide your page into <strong>sections</strong>,
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias nostrum sit nisi error sint. Dolore, libero distinctio aperiam iste totam corporis ratione maiores rem facere necessitatibus enim, animi minus alias. <strong>Colors</strong>,
         like the one you're currently reading.
       </h2>
-    </section>
-    <div class="tile is-ancestor">
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">One</p>
-          <p class="subtitle">Subtitle</p>
-        </article>
+      <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+        </div>
       </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Two</p>
-          <p class="subtitle">Subtitle</p>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Three</p>
-          <p class="subtitle">Subtitle</p>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Four</p>
-          <p class="subtitle">Subtitle</p>
-        </article>
-      </div>
-    </div>
 
-    <div class="tile is-ancestor">
-      <div class="tile is-vertical is-9">
-        <div class="tile">
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <p class="title">Five</p>
-              <p class="subtitle">Subtitle</p>
-              <div class="content">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                  semper diam at erat pulvinar, at pulvinar felis blandit.
-                  Vestibulum volutpat tellus diam, consequat gravida libero
-                  rhoncus ut. Morbi maximus, leo sit amet vehicula eleifend,
-                  nunc dui porta orci, quis semper odio felis ut quam.
-                </p>
+      <div class="tile is-ancestor">
+        <div class="tile is-vertical is-9">
+          <div class="tile">
+            <div class="tile is-parent">
+              <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+            </div>
+            <div class="tile is-8 is-vertical">
+              <div class="tile">
+                <div class="tile is-parent">
+                  <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+                </div>
+                <div class="tile is-parent">
+                  <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+                </div>
               </div>
-            </article>
+              <div class="tile is-parent">
+                <article class="tile is-child box randomFill subtitle has-text-centered"></article>
+              </div>
+            </div>
           </div>
-          <div class="tile is-8 is-vertical">
-            <div class="tile">
-              <div class="tile is-parent">
-                <article class="tile is-child box">
-                  <p class="title">Six</p>
-                  <p class="subtitle">Subtitle</p>
-                </article>
-              </div>
-              <div class="tile is-parent">
-                <article class="tile is-child box">
-                  <p class="title">Seven</p>
-                  <p class="subtitle">Subtitle</p>
-                </article>
-              </div>
+          <div class="tile">
+            <div class="tile is-8 is-parent">
+              <article class="tile is-child box randomFill subtitle has-text-centered"></article>
             </div>
             <div class="tile is-parent">
-              <article class="tile is-child box">
-                <p class="title">Eight</p>
-                <p class="subtitle">Subtitle</p>
-              </article>
+              <article class="tile is-child box randomFill subtitle has-text-centered"></article>
             </div>
           </div>
         </div>
-        <div class="tile">
-          <div class="tile is-8 is-parent">
-            <article class="tile is-child box">
-              <p class="title">Nine</p>
-              <p class="subtitle">Subtitle</p>
-              <div class="content">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                  ornare magna eros, eu pellentesque tortor vestibulum ut.
-                  Maecenas non massa sem. Etiam finibus odio quis feugiat
-                  facilisis.
-                </p>
-              </div>
-            </article>
-          </div>
-          <div class="tile is-parent">
-            <article class="tile is-child box">
-              <p class="title">Ten</p>
-              <p class="subtitle">Subtitle</p>
-              <div class="content">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                  ornare magna eros, eu pellentesque tortor vestibulum ut.
-                  Maecenas non massa sem. Etiam finibus odio quis feugiat
-                  facilisis.
-                </p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <div class="content">
-            <p class="title">Eleven</p>
-            <p class="subtitle">Subtitle</p>
+        <div class="tile is-parent">
+          <article class="tile is-child box randomFill subtitle has-text-centered">
             <div class="content">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                semper diam at erat pulvinar, at pulvinar felis blandit.
-                Vestibulum volutpat tellus diam, consequat gravida libero
-                rhoncus ut. Morbi maximus, leo sit amet vehicula eleifend, nunc
-                dui porta orci, quis semper odio felis ut quam.
-              </p>
-              <p>
-                Integer sollicitudin, tortor a mattis commodo, velit urna
-                rhoncus erat, vitae congue lectus dolor consequat libero. Donec
-                leo ligula, maximus et pellentesque sed, gravida a metus. Cras
-                ullamcorper a nunc ac porta. Aliquam ut aliquet lacus, quis
-                faucibus libero. Quisque non semper leo.
-              </p>
-            </div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
-    </div>
-
-    <div class="tile is-ancestor">
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Twelve</p>
-          <p class="subtitle">Subtitle</p>
-          <div class="content">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-              ornare magna eros, eu pellentesque tortor vestibulum ut.
-            </p>
-          </div>
-        </article>
+      <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <article class="tile is-child box randomFill subtitle has-text-centered">
+          </article>
+        </div>
+        <div class="tile is-parent is-6">
+          <article class="tile is-child box randomFill subtitle has-text-centered">
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box randomFill subtitle has-text-centered">
+          </article>
+        </div>
       </div>
-      <div class="tile is-parent is-6">
-        <article class="tile is-child box">
-          <p class="title">Thirteen</p>
-          <p class="subtitle">Subtitle</p>
-          <div class="content">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-              ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas
-              non massa sem. Etiam finibus odio quis feugiat facilisis.
-            </p>
-          </div>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child box">
-          <p class="title">Fourteen</p>
-          <p class="subtitle">Subtitle</p>
-          <div class="content">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-              ornare magna eros, eu pellentesque tortor vestibulum ut.
-            </p>
-          </div>
-        </article>
-      </div>
-    </div>
+    </section>
     <footer class="footer">
       <div class="content has-text-centered">
         <p>

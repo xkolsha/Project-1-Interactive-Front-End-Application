@@ -82,7 +82,7 @@ function setColorForRandomFill() {
     var g = parseInt(randomColor.slice(2, 4), 16);
     var b = parseInt(randomColor.slice(4, 6), 16);
     var brightness = Math.round((r * 299 + g * 587 + b * 114) / 1000);
-    // https://en.wikipedia.org/wiki/Relative_luminance
+    // https://en.wikipedia.org/wiki/Relative_luminance this is for the README file
 
     // If the background color is light, make the text color dark, and vice versa
     if (brightness > 125) {
