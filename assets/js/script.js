@@ -49,13 +49,14 @@ var unsplashUrl = "https://api.unsplash.com/photos/random/?client_id=";
 
 // ColorAPI base URL
 var colorapiUrl = "https://www.thecolorapi.com/scheme?hex=";
-var letters = "0123456789ABCDEF";
+var alphanumeric = "0123456789ABCDEF";
 
 // Function to generate a random hex color
+// For example: #002e63 = dark blue. we will get this by randomly selects the index 0,0,2,14,6,3 from the alphanumeric string
 function getRandomHexColor() {
   var color = "";
   for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+    color += alphanumeric[Math.floor(Math.random() * 16)];
   }
 
   // Append the random color to the colorapiUrl
@@ -83,6 +84,7 @@ function setColorForRandomFill() {
     var b = parseInt(randomColor.slice(4, 6), 16);
     var brightness = Math.round((r * 299 + g * 587 + b * 114) / 1000);
     // https://en.wikipedia.org/wiki/Relative_luminance this is for the README file
+    // https://www.w3schools.com/jsref/jsref_slice_string.asp this is for the README file
 
     // If the background color is light, make the text color dark, and vice versa
     if (brightness > 125) {
