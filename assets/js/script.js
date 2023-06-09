@@ -97,14 +97,23 @@ document.getElementById('getPColor').addEventListener('click', function() {
         var imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
 
         //create an object to keep track of the amount of colors
-        var colorCounts = {};
+        var colorData = {};
 
         // goes over generated pixel data to get the Rbg values
         for (var i = 0; i < imageData.length; i += 4) {
         var r = imageData[i]; // red
         var g = imageData[i + 1]; // green
         var b = imageData[i + 2]; // blue
+
+        var rbg = r + ',' + g + ',' + b;
+
+        if (colorData[rbg]) {
+          colorData[rbg]++;
+        } else {
+          colorData[rbg] = 1;
+          }
         }
+        
         // LEFT TO DO
         // need to make a rgb string / add the color count to var colorCounts / find the primary color (highest pixel count)
         // add information to Div
