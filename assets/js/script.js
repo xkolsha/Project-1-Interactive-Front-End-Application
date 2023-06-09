@@ -68,25 +68,47 @@ setColorForRandomFill();
 
 
 // Start of Chris Code:
-// https://www.javascripttutorial.net/web-apis/javascript-canvas/ This is for Readme File
+// https://www.javascripttutorial.net/web-apis/javascript-canvas/ This is for ReadMe File
 // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
-// 
+// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas This is for the ReadMe
+
+
 document.getElementById('getPColor').addEventListener('click', function() {
+    // get url from the image input
     var imageUrl = document.getElementById('imageInput').value;
   
+    // Create a new Image object and set properties
     var image = new Image();
-    image.crossOrigin = 'Anonymous';
-    image.src = imageUrl;
+        image.crossOrigin = 'Anonymous'; // allows us to load images from different domains
+        image.src = imageUrl; // set the source of the image
   
+    // Event handler that runs when the image has finished loading
     image.onload = function() {
-      var canvas = document.createElement('canvas');
-      canvas.width = image.width;
-      canvas.height = image.height;
-  
-      var context = canvas.getContext('2d');
-      context.drawImage(image, 0, 0);
-  
-      var imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
-      var colorCounts = {};
-    }
-});
+    //creates a canvas element with the same dimensions as the loaded image
+        var canvas = document.createElement('canvas');
+        canvas.width = image.width; 
+        canvas.height = image.height;
+
+        // gets the 2d rendering context for the canvas
+        var context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0); // draw the loaded image onto the canvs
+
+        // gets the pixel data of the canvas image
+        var imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+
+        //create an object to keep track of the amount of colors
+        var colorCounts = {};
+
+        // goes over generated pixel data to get the Rbg values
+        for (var i = 0; i < imageData.length; i += 4) {
+        var r = imageData[i]; // red
+        var g = imageData[i + 1]; // green
+        var b = imageData[i + 2]; // blue
+        }
+        // LEFT TO DO
+        // need to make a rgb string / add the color count to var colorCounts / find the primary color (highest pixel count)
+        // add information to Div
+        // Console.Log to test
+        // Styling
+        }
+    });
