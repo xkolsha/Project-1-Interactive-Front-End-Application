@@ -1,4 +1,3 @@
-// Start of Chris Code:
 
 // ----------------------------------------------------------------------------------------
 // Start of Aviad Code:
@@ -66,3 +65,28 @@ function setColorForRandomFill() {
 setColorForRandomFill();
 
 // End of Aviad Code
+
+
+// Start of Chris Code:
+// https://www.javascripttutorial.net/web-apis/javascript-canvas/ This is for Readme File
+// https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
+// 
+document.getElementById('getPColor').addEventListener('click', function() {
+    var imageUrl = document.getElementById('imageInput').value;
+  
+    var image = new Image();
+    image.crossOrigin = 'Anonymous';
+    image.src = imageUrl;
+  
+    image.onload = function() {
+      var canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+  
+      var context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0);
+  
+      var imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      var colorCounts = {};
+    }
+});
