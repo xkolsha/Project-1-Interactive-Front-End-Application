@@ -107,17 +107,29 @@ document.getElementById('getPColor').addEventListener('click', function() {
 
         var rbg = r + ',' + g + ',' + b;
 
+        // update the color count in (colorData)
         if (colorData[rbg]) {
           colorData[rbg]++;
         } else {
           colorData[rbg] = 1;
           }
         }
+
+        // find the primary color based on the highest colorData count
+        var primaryColor = Object.keys(colorData).reduce(function (a, b) {
+          return colorData[a] > colorData[b] ? a : b;
+        });
+
+        // This will be the output for the generated color from the image to work with the color api
+        document.getElementById('colorOutput').style.backgroundColor= 'rbg(' + primaryColor + ')';
+        document.getElementById('colorOutput').textContent = 'Primary Color: ' + primaryColor;
+      
         
         // LEFT TO DO
         // need to make a rgb string / add the color count to var colorCounts / find the primary color (highest pixel count)
         // add information to Div
         // Console.Log to test
         // Styling
+        
         }
     });
