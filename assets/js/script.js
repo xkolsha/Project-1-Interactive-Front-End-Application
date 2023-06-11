@@ -158,18 +158,29 @@ document.getElementById("getPColor").addEventListener("click", function () {
       var b = imageData[i + 2]; // blue
 
       var rbg = r + "," + g + "," + b;
+        
+        // update the color count in (colorData)
+        if (colorData[rbg]) {
+          colorData[rbg]++;
+        } else {
+          colorData[rbg] = 1;
+          }
+        }
 
-      if (colorData[rbg]) {
-        colorData[rbg]++;
-      } else {
-        colorData[rbg] = 1;
-      }
-    }
+        // find the primary color based on the highest colorData count
+        var primaryColor = Object.keys(colorData).reduce(function (a, b) {
+          return colorData[a] > colorData[b] ? a : b;
+        });
 
-    // LEFT TO DO
-    // need to make a rgb string / add the color count to var colorCounts / find the primary color (highest pixel count)
-    // add information to Div
-    // Console.Log to test
-    // Styling
-  };
-});
+        // This will be the output for the generated color from the image to work with the color api
+        document.getElementById('colorOutput').style.backgroundColor= 'rbg(' + primaryColor + ')'; // is not needed if we generate a palette through colorapi
+        document.getElementById('colorOutput').textContent = 'Primary Color: ' + primaryColor;
+        };
+        
+        //on error message incase the image can not load. (from line 176)
+        image.onerror = function() {
+          document.getElementById('colorOutput').textContent = 'Error loading image.';
+      
+        
+        };
+    });
