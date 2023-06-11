@@ -29,6 +29,40 @@ function getRandomHexColor() {
   return color;
 }
 
+// Function to fetch color data from ColorAPI and update the cards
+function updateColorData() {
+  fetch("https://www.thecolorapi.com/id?hex=534C8A&format=json")
+    .then((response) => response.json())
+    .then((data) => {
+      // Extract the required values
+      var rgb = data.rgb.value;
+      var hex = data.hex.value;
+      var hsv = data.hsv.value;
+      var cmyk = data.cmyk.value;
+      var hsl = data.hsl.value;
+      var imageNamed = data.name.value;
+
+      // Update the cards with the extracted values
+      document.getElementById("rgb-value").textContent = rgb;
+      document.getElementById("hex-value").textContent = hex;
+      document.getElementById("hsv-value").textContent = hsv;
+      document.getElementById("cmyk-value").textContent = cmyk;
+      document.getElementById("hsl-value").textContent = hsl;
+      document.getElementById("color-name").textContent = imageNamed;
+      document.getElementById("mainColor").style.backgroundColor = hex;
+    });
+}
+updateColorData();
+
+function setTextBrightness(card, hexColor) {
+  var brightness = calculateBrightness(hexColor);
+
+  if (brightness > 125) {
+    card.style.color = "black";
+  } else {
+    card.style.color = "white";
+  }
+}
 // Function to set the background color of all elements with the class 'randomFill'
 function setColorForRandomFill() {
   // Query all elements with the class 'randomFill'
