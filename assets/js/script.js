@@ -63,38 +63,56 @@ function setTextBrightness(card, hexColor) {
     card.style.color = "white";
   }
 }
-// Function to set the background color of all elements with the class 'randomFill'
+function updateSchemeData() {
+  fetch("https://www.thecolorapi.com/scheme?hex=534C8A&mode=monochrome&count=5")
+    .then((response) => response.json())
+    .then((data) => {
+      // Extract the required values
+      var colors = data.colors.map((color) => color.hex.value);
+
+      // Update the cards with the extracted values
+      for (var i = 1; i <= 5; i++) {
+        var card = document.getElementById("color-" + i);
+        card.style.backgroundColor = colors[i - 1];
+        card.textContent = colors[i - 1];
+
+        // If the background color is light, make the text color dark, and vice versa
+        setTextBrightness(card, colors[i - 1]);
+      }
+    });
+}
+
+updateSchemeData();
+
+function calculateBrightness(hexColor) {
+  // Calculate the brightness of the background color to determine if it's light or dark
+  // #RRGGBB (e.g., #002e63) represents RGB color; each 2-digit hex like 00, 2e, or 63 converts to decimal via (16 * 1st digit + 1 * 2nd digit), with a maximum value of 255 (FF)
+  var r = parseInt(hexColor.slice(0, 2), 16);
+  var g = parseInt(hexColor.slice(2, 4), 16);
+  var b = parseInt(hexColor.slice(4, 6), 16);
+  var brightness = Math.round((r * 212.6 + g * 715.2 + b * 72.2) / 1000);
+
+  return brightness;
+}
+
 function setColorForRandomFill() {
   // Query all elements with the class 'randomFill'
-  var tiles = document.querySelectorAll(".randomFill");
+  var cards = document.querySelectorAll(".randomFill");
 
-  // For each tile, set its background color to a random color
-  tiles.forEach(function (tile) {
+  // For each card, set its background color to a random color
+  cards.forEach(function (card) {
     var randomColor = getRandomHexColor();
-    tile.style.backgroundColor = "#" + randomColor;
-    tile.textContent = randomColor;
-
-    // Calculate the brightness of the background color to determine if it's light or dark
-    // https://en.wikipedia.org/wiki/Relative_luminance this is for the README file
-    // https://www.w3schools.com/jsref/jsref_slice_string.asp this is for the README file
-    // https://www.colorhexa.com/002e63 this is for the README file
-    // #RRGGBB (e.g. #002e63) represents RGB color; each 2-digit hex like 00,2e or 63 converts to decimal via (16*1st digit + 1*2nd digit), the maximum is 255 (FF)
-    var r = parseInt(randomColor.slice(0, 2), 16);
-    var g = parseInt(randomColor.slice(2, 4), 16);
-    var b = parseInt(randomColor.slice(4, 6), 16);
-    var brightness = Math.round((r * 212.6 + g * 715.2 + b * 72.2) / 1000);
+    card.style.backgroundColor = "#" + randomColor;
+    card.textContent = randomColor;
 
     // If the background color is light, make the text color dark, and vice versa
-    if (brightness > 125) {
-      tile.style.color = "black";
-    } else {
-      tile.style.color = "white";
-    }
+    setTextBrightness(card, randomColor);
   });
 }
 
 setColorForRandomFill();
 
+// TO DO LIST: I will refine it with const, let async and await later.
 // End of Aviad Code
 
 // Start of Chris Code:
