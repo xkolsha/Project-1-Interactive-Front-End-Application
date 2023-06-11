@@ -1,23 +1,22 @@
-
 // ----------------------------------------------------------------------------------------
 // Start of Aviad Code:
 
 // Unsplash API key
 var UNSPLASH_ACCESS_KEY = "tZgxG3ifL1I1t2iKVY7Pm9kjOxi7M06Ix8c29PJOxfM";
 
-// ColorAPI API example for referance
-var COLORAPI_API_KEY =
-  "https://www.thecolorapi.com/scheme?hex=002e63&format=json&mode=analogic&count=5";
-
 // Unsplash API base URL
 var unsplashUrl = "https://api.unsplash.com/photos/random/?client_id=";
 
 // ColorAPI base URL
-var colorapiUrl = "https://www.thecolorapi.com/scheme?hex=";
+var colorapiUrl = "https://www.thecolorapi.com/id?hex=";
+
+// ColorAPI base scheme URL
+var ColorSchemeAPI =
+  "https://www.thecolorapi.com/scheme?hex=534C8A&mode=monochrome&count=5";
 var alphanumeric = "0123456789ABCDEF";
 
 // Function to generate a random hex color
-// For example: #002e63 = dark blue. we will get this by randomly selects the index 0,0,2,14,6,3 from the alphanumeric string
+// For example: #534C8A = Victoria. we will get this by randomly selects the index 5,3,4,12,8,9 from the alphanumeric string
 function getRandomHexColor() {
   var color = "";
   for (var i = 0; i < 6; i++) {
@@ -26,8 +25,6 @@ function getRandomHexColor() {
 
   // Append the random color to the colorapiUrl
   var urlWithColor = colorapiUrl + color;
-
-  console.log(urlWithColor); // This line logs the URL with the color to the console
 
   return color;
 }
@@ -66,58 +63,61 @@ setColorForRandomFill();
 
 // End of Aviad Code
 
-
 // Start of Chris Code:
 // https://www.javascripttutorial.net/web-apis/javascript-canvas/ This is for ReadMe File
 // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas This is for the ReadMe
 
+document.getElementById("getPColor").addEventListener("click", function () {
+  // get url from the image input
+  var imageUrl = document.getElementById("imageInput").value;
 
-document.getElementById('getPColor').addEventListener('click', function() {
-    // get url from the image input
-    var imageUrl = document.getElementById('imageInput').value;
-  
-    // Create a new Image object and set properties
-    var image = new Image();
-        image.crossOrigin = 'Anonymous'; // allows us to load images from different domains
-        image.src = imageUrl; // set the source of the image
-  
-    // Event handler that runs when the image has finished loading
-    image.onload = function() {
+  // Create a new Image object and set properties
+  var image = new Image();
+  image.crossOrigin = "Anonymous"; // allows us to load images from different domains
+  image.src = imageUrl; // set the source of the image
+
+  // Event handler that runs when the image has finished loading
+  image.onload = function () {
     //creates a canvas element with the same dimensions as the loaded image
-        var canvas = document.createElement('canvas');
-        canvas.width = image.width; 
-        canvas.height = image.height;
+    var canvas = document.createElement("canvas");
+    canvas.width = image.width;
+    canvas.height = image.height;
 
-        // gets the 2d rendering context for the canvas
-        var context = canvas.getContext('2d');
-        context.drawImage(image, 0, 0); // draw the loaded image onto the canvs
+    // gets the 2d rendering context for the canvas
+    var context = canvas.getContext("2d");
+    context.drawImage(image, 0, 0); // draw the loaded image onto the canvs
 
-        // gets the pixel data of the canvas image
-        var imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    // gets the pixel data of the canvas image
+    var imageData = context.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    ).data;
 
-        //create an object to keep track of the amount of colors
-        var colorData = {};
+    //create an object to keep track of the amount of colors
+    var colorData = {};
 
-        // goes over generated pixel data to get the Rbg values
-        for (var i = 0; i < imageData.length; i += 4) {
-        var r = imageData[i]; // red
-        var g = imageData[i + 1]; // green
-        var b = imageData[i + 2]; // blue
+    // goes over generated pixel data to get the Rbg values
+    for (var i = 0; i < imageData.length; i += 4) {
+      var r = imageData[i]; // red
+      var g = imageData[i + 1]; // green
+      var b = imageData[i + 2]; // blue
 
-        var rbg = r + ',' + g + ',' + b;
+      var rbg = r + "," + g + "," + b;
 
-        if (colorData[rbg]) {
-          colorData[rbg]++;
-        } else {
-          colorData[rbg] = 1;
-          }
-        }
-        
-        // LEFT TO DO
-        // need to make a rgb string / add the color count to var colorCounts / find the primary color (highest pixel count)
-        // add information to Div
-        // Console.Log to test
-        // Styling
-        }
-    });
+      if (colorData[rbg]) {
+        colorData[rbg]++;
+      } else {
+        colorData[rbg] = 1;
+      }
+    }
+
+    // LEFT TO DO
+    // need to make a rgb string / add the color count to var colorCounts / find the primary color (highest pixel count)
+    // add information to Div
+    // Console.Log to test
+    // Styling
+  };
+});
