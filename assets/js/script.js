@@ -1,9 +1,6 @@
 // ----------------------------------------------------------------------------------------
 // Start of Aviad Code:
 
-// Unsplash API key
-const UNSPLASH_ACCESS_KEY = "tZgxG3ifL1I1t2iKVY7Pm9kjOxi7M06Ix8c29PJOxfM";
-
 // ColorAPI base URL
 const colorApiUrl = "https://www.thecolorapi.com/id?hex=";
 
