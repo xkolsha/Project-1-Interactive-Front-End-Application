@@ -115,25 +115,33 @@ async function updateSchemeData(hexColor) {
     console.error("Error updating scheme data:", error);
   }
 }
+// Call the functions to update the color data, generate random colors, and update the scheme data
+// Get the color from the URL
+const urlParams = new URLSearchParams(window.location.search);
+const color = urlParams.get("color");
 
-function setColorForRandomFill() {
-  // Query all elements with the class 'randomFill'
-  var cards = document.querySelectorAll(".randomFill");
-
-  // For each card, set its background color to a random color
-  cards.forEach(function (card) {
-    var randomColor = getRandomHexColor();
-    card.style.backgroundColor = "#" + randomColor;
-    card.textContent = randomColor;
-
-    // If the background color is light, make the text color dark, and vice versa
-    setTextBrightness(card, randomColor);
-  });
+if (color) {
+  // If a color was specified, use it
+  updateColorData(color);
+  updateSchemeData(color);
+} else {
+  // Otherwise, generate a random color
+  const randomColor = getRandomHexColor();
+  updateColorData(randomColor);
+  updateSchemeData(randomColor);
 }
 
 setColorForRandomFill();
 
-// TO DO LIST: I will refine it with const, let async and await later.
+document.getElementById("generate-btn").addEventListener("click", function () {
+  const inputColor = document.getElementById("color-input").value;
+  if (inputColor) {
+    window.location.href = "color.html?color=" + inputColor;
+  } else {
+    window.location.href = "color.html";
+  }
+});
+
 // End of Aviad Code
 
 // Start of Chris Code:
