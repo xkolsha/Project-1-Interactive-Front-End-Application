@@ -33,69 +33,87 @@ function calculateBrightness(hexColor) {
 }
 
 // Function to fetch color data from ColorAPI and update the cards
-function updateColorData() {
-  fetch("https://www.thecolorapi.com/id?hex=534C8A&format=json")
-    .then((response) => response.json())
-    .then((data) => {
-      // Extract the required values
-      var rgb = data.rgb.value;
-      var hex = data.hex.value;
-      var hsv = data.hsv.value;
-      var cmyk = data.cmyk.value;
-      var hsl = data.hsl.value;
-      var imageNamed = data.name.value;
+async function updateColorData(hexColor) {
+  try {
+    // Fetch color data from ColorAPI
+    const response = await fetch(colorApiUrl + hexColor + "&format=json");
+    const data = await response.json();
 
-      // Update the cards with the extracted values
-      document.getElementById("rgb-value").textContent = rgb;
-      document.getElementById("hex-value").textContent = hex;
-      document.getElementById("hsv-value").textContent = hsv;
-      document.getElementById("cmyk-value").textContent = cmyk;
-      document.getElementById("hsl-value").textContent = hsl;
-      document.getElementById("color-name").textContent = imageNamed;
-      document.getElementById("mainColor").style.backgroundColor = hex;
-    });
+    // Extract color values from the response
+    const rgb = data.rgb.value;
+    const hex = data.hex.value;
+    const hsv = data.hsv.value;
+    const cmyk = data.cmyk.value;
+    const hsl = data.hsl.value;
+    const imageNamed = data.name.value;
+
+    // Update corresponding elements with the fetched values
+    document.getElementById("rgb-value").textContent = rgb;
+    document.getElementById("hex-value").textContent = hex;
+    document.getElementById("hsv-value").textContent = hsv;
+    document.getElementById("cmyk-value").textContent = cmyk;
+    document.getElementById("hsl-value").textContent = hsl;
+    document.getElementById("color-name").textContent = imageNamed;
+    document.getElementById("mainColor").style.backgroundColor = hex;
+  } catch (error) {
+    console.error("Error updating color data:", error);
+  }
 }
-updateColorData();
 
+// If the background color is light, make the text color black; otherwise, make it white
 function setTextBrightness(card, hexColor) {
-  var brightness = calculateBrightness(hexColor);
-
+  const brightness = calculateBrightness(hexColor);
   if (brightness > 125) {
     card.style.color = "black";
   } else {
     card.style.color = "white";
   }
 }
-function updateSchemeData() {
-  fetch("https://www.thecolorapi.com/scheme?hex=534C8A&mode=monochrome&count=5")
-    .then((response) => response.json())
-    .then((data) => {
-      // Extract the required values
-      var colors = data.colors.map((color) => color.hex.value);
 
-      // Update the cards with the extracted values
-      for (var i = 1; i <= 5; i++) {
-        var card = document.getElementById("color-" + i);
-        card.style.backgroundColor = colors[i - 1];
-        card.textContent = colors[i - 1];
-
-        // If the background color is light, make the text color dark, and vice versa
-        setTextBrightness(card, colors[i - 1]);
-      }
-    });
+// For each card, set its background color to a random color and update the textquote("color and update the text color", "card, randomColor);\n  });\n}\n\n// Call the functions to update the color data, generate random colors, and update the scheme data\nupdateColorData();\nsetColorForRandomFill();\nupdateSchemeData();")
+function setColorForRandomFill() {
+  const cards = document.querySelectorAll(".randomFill");
+  cards.forEach(function (card) {
+    const randomColor = getRandomHexColor();
+    card.style.backgroundColor = "#" + randomColor;
+    card.textContent = randomColor;
+    setTextBrightness(card, randomColor);
+  });
 }
 
-updateSchemeData();
+// Function to fetch scheme data from ColorAPI and update the cards
+async function updateSchemeData(hexColor) {
+  try {
+    const schemeModes = [
+      "monochrome",
+      "monochrome-dark",
+      "monochrome-light",
+      "analogic",
+      "complement",
+      "analogic-complement",
+      "triad",
+      "quad",
+    ];
 
-function calculateBrightness(hexColor) {
-  // Calculate the brightness of the background color to determine if it's light or dark
-  // #RRGGBB (e.g., #002e63) represents RGB color; each 2-digit hex like 00, 2e, or 63 converts to decimal via (16 * 1st digit + 1 * 2nd digit), with a maximum value of 255 (FF)
-  var r = parseInt(hexColor.slice(0, 2), 16);
-  var g = parseInt(hexColor.slice(2, 4), 16);
-  var b = parseInt(hexColor.slice(4, 6), 16);
-  var brightness = Math.round((r * 212.6 + g * 715.2 + b * 72.2) / 1000);
+    // Iterate over each scheme mode
+    for (const mode of schemeModes) {
+      const response = await fetch(
+        `https://www.thecolorapi.com/scheme?hex=${hexColor}&mode=${mode}&count=5`
+      );
+      const data = await response.json();
+      const colors = data.colors.map((color) => color.hex.value);
 
-  return brightness;
+      // Update the cards with the extracted values
+      for (let i = 1; i <= 5; i++) {
+        const card = document.getElementById(`${mode}-color-${i}`);
+        card.style.backgroundColor = colors[i - 1];
+        card.textContent = colors[i - 1];
+        setTextBrightness(card, colors[i - 1]);
+      }
+    }
+  } catch (error) {
+    console.error("Error updating scheme data:", error);
+  }
 }
 
 function setColorForRandomFill() {
