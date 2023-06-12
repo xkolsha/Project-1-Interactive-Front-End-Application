@@ -2,31 +2,34 @@
 // Start of Aviad Code:
 
 // Unsplash API key
-var UNSPLASH_ACCESS_KEY = "tZgxG3ifL1I1t2iKVY7Pm9kjOxi7M06Ix8c29PJOxfM";
-
-// Unsplash API base URL
-var unsplashUrl = "https://api.unsplash.com/photos/random/?client_id=";
+const UNSPLASH_ACCESS_KEY = "tZgxG3ifL1I1t2iKVY7Pm9kjOxi7M06Ix8c29PJOxfM";
 
 // ColorAPI base URL
-var colorapiUrl = "https://www.thecolorapi.com/id?hex=";
+const colorApiUrl = "https://www.thecolorapi.com/id?hex=";
 
-// ColorAPI base scheme URL
-var ColorSchemeAPI =
-  "https://www.thecolorapi.com/scheme?hex=534C8A&mode=monochrome&count=5";
-var alphanumeric = "0123456789ABCDEF";
+const alphanumeric = "0123456789ABCDEF";
 
 // Function to generate a random hex color
-// For example: #534C8A = Victoria. we will get this by randomly selects the index 5,3,4,12,8,9 from the alphanumeric string
+// For example: #534C8A = Victoria. We randomly select the index 5, 3, 4, 12, 8, 9 from the alphanumeric string
 function getRandomHexColor() {
-  var color = "";
-  for (var i = 0; i < 6; i++) {
+  let color = "";
+  for (let i = 0; i < 6; i++) {
     color += alphanumeric[Math.floor(Math.random() * 16)];
   }
-
-  // Append the random color to the colorapiUrl
-  var urlWithColor = colorapiUrl + color;
-
   return color;
+}
+
+// Calculate the brightness of the background color to determine if it's light or dark
+// #RRGGBB (e.g., #534C8A) represents RGB color; each 2-digit hex like 53, 4c, or 8a converts to decimal via (16 * 1st digit + 1 * 2nd digit), with a maximum value of 255 (FF)
+// Reference: https://en.wikipedia.org/wiki/Relative_luminance
+// Reference: https://www.w3schools.com/jsref/jsref_slice_string.asp
+// Reference: https://www.colorhexa.com/534C8A
+function calculateBrightness(hexColor) {
+  const r = parseInt(hexColor.slice(0, 2), 16);
+  const g = parseInt(hexColor.slice(2, 4), 16);
+  const b = parseInt(hexColor.slice(4, 6), 16);
+  const brightness = Math.round((r * 212.6 + g * 715.2 + b * 72.2) / 1000);
+  return brightness;
 }
 
 // Function to fetch color data from ColorAPI and update the cards
@@ -158,29 +161,29 @@ document.getElementById("getPColor").addEventListener("click", function () {
       var b = imageData[i + 2]; // blue
 
       var rbg = r + "," + g + "," + b;
-        
-        // update the color count in (colorData)
-        if (colorData[rbg]) {
-          colorData[rbg]++;
-        } else {
-          colorData[rbg] = 1;
-          }
-        }
 
-        // find the primary color based on the highest colorData count
-        var primaryColor = Object.keys(colorData).reduce(function (a, b) {
-          return colorData[a] > colorData[b] ? a : b;
-        });
+      // update the color count in (colorData)
+      if (colorData[rbg]) {
+        colorData[rbg]++;
+      } else {
+        colorData[rbg] = 1;
+      }
+    }
 
-        // This will be the output for the generated color from the image to work with the color api
-        document.getElementById('colorOutput').style.backgroundColor= 'rbg(' + primaryColor + ')'; // is not needed if we generate a palette through colorapi
-        document.getElementById('colorOutput').textContent = 'Primary Color: ' + primaryColor;
-        };
-        
-        //on error message incase the image can not load. (from line 176)
-        image.onerror = function() {
-          document.getElementById('colorOutput').textContent = 'Error loading image.';
-      
-        
-        };
+    // find the primary color based on the highest colorData count
+    var primaryColor = Object.keys(colorData).reduce(function (a, b) {
+      return colorData[a] > colorData[b] ? a : b;
     });
+
+    // This will be the output for the generated color from the image to work with the color api
+    document.getElementById("colorOutput").style.backgroundColor =
+      "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
+    document.getElementById("colorOutput").textContent =
+      "Primary Color: " + primaryColor;
+  };
+
+  //on error message incase the image can not load. (from line 176)
+  image.onerror = function () {
+    document.getElementById("colorOutput").textContent = "Error loading image.";
+  };
+});
