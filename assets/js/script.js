@@ -2,117 +2,146 @@
 // Start of Aviad Code:
 
 // Unsplash API key
-var UNSPLASH_ACCESS_KEY = "tZgxG3ifL1I1t2iKVY7Pm9kjOxi7M06Ix8c29PJOxfM";
-
-// Unsplash API base URL
-var unsplashUrl = "https://api.unsplash.com/photos/random/?client_id=";
+const UNSPLASH_ACCESS_KEY = "tZgxG3ifL1I1t2iKVY7Pm9kjOxi7M06Ix8c29PJOxfM";
 
 // ColorAPI base URL
-var colorapiUrl = "https://www.thecolorapi.com/id?hex=";
+const colorApiUrl = "https://www.thecolorapi.com/id?hex=";
 
-// ColorAPI base scheme URL
-var ColorSchemeAPI =
-  "https://www.thecolorapi.com/scheme?hex=534C8A&mode=monochrome&count=5";
-var alphanumeric = "0123456789ABCDEF";
+const alphanumeric = "0123456789ABCDEF";
 
 // Function to generate a random hex color
-// For example: #534C8A = Victoria. we will get this by randomly selects the index 5,3,4,12,8,9 from the alphanumeric string
+// For example: #534C8A = Victoria. We randomly select the index 5, 3, 4, 12, 8, 9 from the alphanumeric string
 function getRandomHexColor() {
-  var color = "";
-  for (var i = 0; i < 6; i++) {
+  let color = "";
+  for (let i = 0; i < 6; i++) {
     color += alphanumeric[Math.floor(Math.random() * 16)];
   }
-
-  // Append the random color to the colorapiUrl
-  var urlWithColor = colorapiUrl + color;
-
   return color;
 }
 
-// Function to fetch color data from ColorAPI and update the cards
-function updateColorData() {
-  fetch("https://www.thecolorapi.com/id?hex=534C8A&format=json")
-    .then((response) => response.json())
-    .then((data) => {
-      // Extract the required values
-      var rgb = data.rgb.value;
-      var hex = data.hex.value;
-      var hsv = data.hsv.value;
-      var cmyk = data.cmyk.value;
-      var hsl = data.hsl.value;
-      var imageNamed = data.name.value;
-
-      // Update the cards with the extracted values
-      document.getElementById("rgb-value").textContent = rgb;
-      document.getElementById("hex-value").textContent = hex;
-      document.getElementById("hsv-value").textContent = hsv;
-      document.getElementById("cmyk-value").textContent = cmyk;
-      document.getElementById("hsl-value").textContent = hsl;
-      document.getElementById("color-name").textContent = imageNamed;
-      document.getElementById("mainColor").style.backgroundColor = hex;
-    });
+// Calculate the brightness of the background color to determine if it's light or dark
+// #RRGGBB (e.g., #534C8A) represents RGB color; each 2-digit hex like 53, 4c, or 8a converts to decimal via (16 * 1st digit + 1 * 2nd digit), with a maximum value of 255 (FF)
+// Reference: https://en.wikipedia.org/wiki/Relative_luminance
+// Reference: https://www.w3schools.com/jsref/jsref_slice_string.asp
+// Reference: https://www.colorhexa.com/534C8A
+function calculateBrightness(hexColor) {
+  const r = parseInt(hexColor.slice(0, 2), 16);
+  const g = parseInt(hexColor.slice(2, 4), 16);
+  const b = parseInt(hexColor.slice(4, 6), 16);
+  const brightness = Math.round((r * 212.6 + g * 715.2 + b * 72.2) / 1000);
+  return brightness;
 }
-updateColorData();
 
+// Function to fetch color data from ColorAPI and update the cards
+async function updateColorData(hexColor) {
+  try {
+    // Fetch color data from ColorAPI
+    const response = await fetch(colorApiUrl + hexColor + "&format=json");
+    const data = await response.json();
+
+    // Extract color values from the response
+    const rgb = data.rgb.value;
+    const hex = data.hex.value;
+    const hsv = data.hsv.value;
+    const cmyk = data.cmyk.value;
+    const hsl = data.hsl.value;
+    const imageNamed = data.name.value;
+
+    // Update corresponding elements with the fetched values
+    document.getElementById("rgb-value").textContent = rgb;
+    document.getElementById("hex-value").textContent = hex;
+    document.getElementById("hsv-value").textContent = hsv;
+    document.getElementById("cmyk-value").textContent = cmyk;
+    document.getElementById("hsl-value").textContent = hsl;
+    document.getElementById("color-name").textContent = imageNamed;
+    document.getElementById("mainColor").style.backgroundColor = hex;
+  } catch (error) {
+    console.error("Error updating color data:", error);
+  }
+}
+
+// If the background color is light, make the text color black; otherwise, make it white
 function setTextBrightness(card, hexColor) {
-  var brightness = calculateBrightness(hexColor);
-
+  const brightness = calculateBrightness(hexColor);
   if (brightness > 125) {
     card.style.color = "black";
   } else {
     card.style.color = "white";
   }
 }
-function updateSchemeData() {
-  fetch("https://www.thecolorapi.com/scheme?hex=534C8A&mode=monochrome&count=5")
-    .then((response) => response.json())
-    .then((data) => {
-      // Extract the required values
-      var colors = data.colors.map((color) => color.hex.value);
 
-      // Update the cards with the extracted values
-      for (var i = 1; i <= 5; i++) {
-        var card = document.getElementById("color-" + i);
-        card.style.backgroundColor = colors[i - 1];
-        card.textContent = colors[i - 1];
-
-        // If the background color is light, make the text color dark, and vice versa
-        setTextBrightness(card, colors[i - 1]);
-      }
-    });
-}
-
-updateSchemeData();
-
-function calculateBrightness(hexColor) {
-  // Calculate the brightness of the background color to determine if it's light or dark
-  // #RRGGBB (e.g., #002e63) represents RGB color; each 2-digit hex like 00, 2e, or 63 converts to decimal via (16 * 1st digit + 1 * 2nd digit), with a maximum value of 255 (FF)
-  var r = parseInt(hexColor.slice(0, 2), 16);
-  var g = parseInt(hexColor.slice(2, 4), 16);
-  var b = parseInt(hexColor.slice(4, 6), 16);
-  var brightness = Math.round((r * 212.6 + g * 715.2 + b * 72.2) / 1000);
-
-  return brightness;
-}
-
+// For each card, set its background color to a random color and update the textquote("color and update the text color", "card, randomColor);\n  });\n}\n\n// Call the functions to update the color data, generate random colors, and update the scheme data\nupdateColorData();\nsetColorForRandomFill();\nupdateSchemeData();")
 function setColorForRandomFill() {
-  // Query all elements with the class 'randomFill'
-  var cards = document.querySelectorAll(".randomFill");
-
-  // For each card, set its background color to a random color
+  const cards = document.querySelectorAll(".randomFill");
   cards.forEach(function (card) {
-    var randomColor = getRandomHexColor();
+    const randomColor = getRandomHexColor();
     card.style.backgroundColor = "#" + randomColor;
     card.textContent = randomColor;
-
-    // If the background color is light, make the text color dark, and vice versa
     setTextBrightness(card, randomColor);
   });
 }
 
+// Function to fetch scheme data from ColorAPI and update the cards
+async function updateSchemeData(hexColor) {
+  try {
+    const schemeModes = [
+      "monochrome",
+      "monochrome-dark",
+      "monochrome-light",
+      "analogic",
+      "complement",
+      "analogic-complement",
+      "triad",
+      "quad",
+    ];
+
+    // Iterate over each scheme mode
+    for (const mode of schemeModes) {
+      const response = await fetch(
+        `https://www.thecolorapi.com/scheme?hex=${hexColor}&mode=${mode}&count=5`
+      );
+      const data = await response.json();
+      const colors = data.colors.map((color) => color.hex.value);
+
+      // Update the cards with the extracted values
+      for (let i = 1; i <= 5; i++) {
+        const card = document.getElementById(`${mode}-color-${i}`);
+        card.style.backgroundColor = colors[i - 1];
+        card.textContent = colors[i - 1];
+        setTextBrightness(card, colors[i - 1]);
+      }
+    }
+  } catch (error) {
+    console.error("Error updating scheme data:", error);
+  }
+}
+// Call the functions to update the color data, generate random colors, and update the scheme data
+// Get the color from the URL
+const urlParams = new URLSearchParams(window.location.search);
+const color = urlParams.get("color");
+
+if (color) {
+  // If a color was specified, use it
+  updateColorData(color);
+  updateSchemeData(color);
+} else {
+  // Otherwise, generate a random color
+  const randomColor = getRandomHexColor();
+  updateColorData(randomColor);
+  updateSchemeData(randomColor);
+}
+
 setColorForRandomFill();
 
-// TO DO LIST: I will refine it with const, let async and await later.
+document.getElementById("generate-btn").addEventListener("click", function () {
+  const inputColor = document.getElementById("color-input").value;
+  if (inputColor) {
+    window.location.href = "color.html?color=" + inputColor;
+  } else {
+    window.location.href = "color.html";
+  }
+});
+
 // End of Aviad Code
 
 // Start of Chris Code:
@@ -158,29 +187,29 @@ document.getElementById("getPColor").addEventListener("click", function () {
       var b = imageData[i + 2]; // blue
 
       var rbg = r + "," + g + "," + b;
-        
-        // update the color count in (colorData)
-        if (colorData[rbg]) {
-          colorData[rbg]++;
-        } else {
-          colorData[rbg] = 1;
-          }
-        }
 
-        // find the primary color based on the highest colorData count
-        var primaryColor = Object.keys(colorData).reduce(function (a, b) {
-          return colorData[a] > colorData[b] ? a : b;
-        });
+      // update the color count in (colorData)
+      if (colorData[rbg]) {
+        colorData[rbg]++;
+      } else {
+        colorData[rbg] = 1;
+      }
+    }
 
-        // This will be the output for the generated color from the image to work with the color api
-        document.getElementById('colorOutput').style.backgroundColor= 'rbg(' + primaryColor + ')'; // is not needed if we generate a palette through colorapi
-        document.getElementById('colorOutput').textContent = 'Primary Color: ' + primaryColor;
-        };
-        
-        //on error message incase the image can not load. (from line 176)
-        image.onerror = function() {
-          document.getElementById('colorOutput').textContent = 'Error loading image.';
-      
-        
-        };
+    // find the primary color based on the highest colorData count
+    var primaryColor = Object.keys(colorData).reduce(function (a, b) {
+      return colorData[a] > colorData[b] ? a : b;
     });
+
+    // This will be the output for the generated color from the image to work with the color api
+    document.getElementById("colorOutput").style.backgroundColor =
+      "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
+    document.getElementById("colorOutput").textContent =
+      "Primary Color: " + primaryColor;
+  };
+
+  //on error message incase the image can not load. (from line 176)
+  image.onerror = function () {
+    document.getElementById("colorOutput").textContent = "Error loading image.";
+  };
+});
