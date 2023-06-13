@@ -213,3 +213,18 @@ document.getElementById("getPColor").addEventListener("click", function () {
     document.getElementById("colorOutput").textContent = "Error loading image.";
   };
 });
+
+// Font Generator
+
+// fetch available fonts from google api
+fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI')
+  .then (response => reseponse.json())
+  .then (data => {
+    const selectFont = document.getElementById('font-select');
+    data.items.forEach (font => {
+      const option = document.createElement('option');
+      option.value = font.family;
+      option.textContent = font.family;
+      selectFont.appendChild(option);
+    });
+  });
