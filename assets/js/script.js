@@ -113,6 +113,24 @@ async function updateSchemeData(hexColor) {
   }
 }
 
+// Function to convert an RGB value to HEX
+function rgbToHex(rgb) {
+  // Remove parentheses from the input, if any
+  rgb = rgb.replace(/[()]/g, "");
+
+  let rgbValues = rgb.split(",");
+  let hex = "";
+  for (let i = 0; i < 3; i++) {
+    let hexComponent = parseInt(rgbValues[i]).toString(16);
+    if (hexComponent.length === 1) {
+      hex += "0" + hexComponent;
+    } else {
+      hex += hexComponent;
+    }
+  }
+  return hex;
+}
+
 // Call the functions to update the color data, generate random colors, and update the scheme data
 // Get the color from the URL
 const urlParams = new URLSearchParams(window.location.search);
