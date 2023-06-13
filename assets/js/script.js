@@ -1,9 +1,6 @@
 // ----------------------------------------------------------------------------------------
 // Start of Aviad Code:
 
-// Unsplash API key
-const UNSPLASH_ACCESS_KEY = "tZgxG3ifL1I1t2iKVY7Pm9kjOxi7M06Ix8c29PJOxfM";
-
 // ColorAPI base URL
 const colorApiUrl = "https://www.thecolorapi.com/id?hex=";
 
@@ -115,6 +112,25 @@ async function updateSchemeData(hexColor) {
     console.error("Error updating scheme data:", error);
   }
 }
+
+// Function to convert an RGB value to HEX
+function rgbToHex(rgb) {
+  // Remove parentheses from the input, if any
+  rgb = rgb.replace(/[()]/g, "");
+
+  let rgbValues = rgb.split(",");
+  let hex = "";
+  for (let i = 0; i < 3; i++) {
+    let hexComponent = parseInt(rgbValues[i]).toString(16);
+    if (hexComponent.length === 1) {
+      hex += "0" + hexComponent;
+    } else {
+      hex += hexComponent;
+    }
+  }
+  return hex;
+}
+
 // Call the functions to update the color data, generate random colors, and update the scheme data
 // Get the color from the URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -134,7 +150,14 @@ if (color) {
 setColorForRandomFill();
 
 document.getElementById("generate-btn").addEventListener("click", function () {
-  const inputColor = document.getElementById("color-input").value;
+  let inputColor = document.getElementById("color-input").value;
+
+  // Check if input is RGB or HEX
+  if (inputColor.includes(",")) {
+    // If it's RGB, convert it to HEX
+    inputColor = rgbToHex(inputColor);
+  }
+
   if (inputColor) {
     window.location.href = "color.html?color=" + inputColor;
   } else {
