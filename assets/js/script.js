@@ -112,6 +112,7 @@ async function updateSchemeData(hexColor) {
     console.error("Error updating scheme data:", error);
   }
 }
+
 // Call the functions to update the color data, generate random colors, and update the scheme data
 // Get the color from the URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -131,7 +132,14 @@ if (color) {
 setColorForRandomFill();
 
 document.getElementById("generate-btn").addEventListener("click", function () {
-  const inputColor = document.getElementById("color-input").value;
+  let inputColor = document.getElementById("color-input").value;
+
+  // Check if input is RGB or HEX
+  if (inputColor.includes(",")) {
+    // If it's RGB, convert it to HEX
+    inputColor = rgbToHex(inputColor);
+  }
+
   if (inputColor) {
     window.location.href = "color.html?color=" + inputColor;
   } else {
