@@ -228,3 +228,14 @@ fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0Z
       selectFont.appendChild(option);
     });
   });
+
+  // function updateFont() {
+  //   const inputSize = document.getElementById('size-input');
+  //   const inputText = document.getElementById('text-input');
+  //   const selectStyle = document.getElementById('style-select');
+  //   const selectFont
+  //   const selectedFont
+  //   const selectedStyle
+  //   const textSize
+  //   const outputText
+  // }
