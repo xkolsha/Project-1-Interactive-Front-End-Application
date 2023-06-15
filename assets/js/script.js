@@ -264,14 +264,29 @@ fetch(
     });
   });
 
+// Function to update the font
 function updateFont() {
   const inputSize = document.getElementById('size-input');
   const inputText = document.getElementById('text-input');
   const selectStyle = document.getElementById('style-select');
   const selectFont = document.getElementById('font-select');
-  const selectedFont = fontSelect.value;
-  const selectedStyle = styleSelect.value;
-  const textSize = sizeInput.value;
   const outputText = document.getElemenbById('output-text');
+  const selectedFont = selectFont.value;
+  const selectedStyle = selectStyle.value;
+  const textSize = inputSize.value;
+
+  outputText.style.fontFamily = selectedFont;
+  outputText.style.fontStyle = selectedStyle;
+  outputText.style.fontSize = `${textSize}px`;
+  outputText.textContant = inputText;
 
 }
+
+//Event Listeneres
+document.getElementById('size-input').addEventListener('input', updateFont);
+document.getElementById('text-input')/addEventListener('input', updateFont);
+document.getElementById('font-select').addEventListener('change', updateFont);
+document.getElementById('style-input').addEventListener('change', updateFont);
+
+
+
