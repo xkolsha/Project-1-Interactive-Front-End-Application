@@ -38,7 +38,6 @@ function calculateBrightness(hexColor) {
   const brightness = Math.round((r * 212.6 + g * 715.2 + b * 72.2) / 1000);
   return brightness;
 }
-
 // Function to fetch color data from ColorAPI and update the cards
 async function updateColorData(hexColor) {
   try {
@@ -83,8 +82,12 @@ function setColorForRandomFill() {
   cards.forEach(function (card) {
     const randomColor = getRandomHexColor();
     card.style.backgroundColor = "#" + randomColor;
+    card.style.cursor = "pointer";
     card.textContent = "#" + randomColor;
     setTextBrightness(card, randomColor);
+    card.onclick = function () {
+      window.open("color.html?color=" + randomColor, "_self");
+    };
   });
 }
 
