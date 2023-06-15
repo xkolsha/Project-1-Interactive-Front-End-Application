@@ -285,6 +285,7 @@ function updateFont() {
 document.getElementById('size-input').addEventListener('input', updateFont);
 document.getElementById('text-input').addEventListener('input', updateFont);
 document.getElementById('font-select').addEventListener('change', updateFont);
-document.getElementById('style-input').addEventListener('change', updateFont);
+document.getElementById('style-select').addEventListener('change', updateFont);
 
 // End of Chris Code
+// Code works but is being cancelled out by other code errors. Will clean everything up after merge"
