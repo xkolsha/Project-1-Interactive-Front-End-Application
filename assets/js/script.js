@@ -1,6 +1,16 @@
 // ----------------------------------------------------------------------------------------
 // Start of Aviad Code:
 
+// function to add the navbar to the page
+fetch("navbar.html")
+  .then((response) => response.text())
+  .then((data) => (document.getElementById("navbar").innerHTML = data));
+
+// function to add the footer to the page
+fetch("footer.html")
+  .then((response) => response.text())
+  .then((data) => (document.getElementById("footer").innerHTML = data));
+
 // ColorAPI base URL
 const colorApiUrl = "https://www.thecolorapi.com/id?hex=";
 
@@ -236,3 +246,31 @@ document.getElementById("getPColor").addEventListener("click", function () {
     document.getElementById("colorOutput").textContent = "Error loading image.";
   };
 });
+
+// Font Generator
+
+// fetch available fonts from google api
+fetch(
+  "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
+)
+  .then((response) => reseponse.json())
+  .then((data) => {
+    const selectFont = document.getElementById("font-select");
+    data.items.forEach((font) => {
+      const option = document.createElement("option");
+      option.value = font.family;
+      option.textContent = font.family;
+      selectFont.appendChild(option);
+    });
+  });
+
+// function updateFont() {
+//   const inputSize = document.getElementById('size-input');
+//   const inputText = document.getElementById('text-input');
+//   const selectStyle = document.getElementById('style-select');
+//   const selectFont
+//   const selectedFont
+//   const selectedStyle
+//   const textSize
+//   const outputText
+// }
