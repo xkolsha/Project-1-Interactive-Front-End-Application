@@ -77,7 +77,7 @@ function setTextBrightness(card, hexColor) {
   }
 }
 
-// For each card, set its background color to a random color and update the textquote("color and update the text color", "card, randomColor);\n  });\n}\n\n// Call the functions to update the color data, generate random colors, and update the scheme data\nupdateColorData();\nsetColorForRandomFill();\nupdateSchemeData();")
+// For each card, set its background color to a random color and update the textn
 function setColorForRandomFill() {
   const cards = document.querySelectorAll(".randomFill");
   cards.forEach(function (card) {
