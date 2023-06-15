@@ -83,7 +83,7 @@ function setColorForRandomFill() {
   cards.forEach(function (card) {
     const randomColor = getRandomHexColor();
     card.style.backgroundColor = "#" + randomColor;
-    card.textContent = randomColor;
+    card.textContent = "#" + randomColor;
     setTextBrightness(card, randomColor);
   });
 }
