@@ -264,13 +264,14 @@ fetch(
     });
   });
 
-// function updateFont() {
-//   const inputSize = document.getElementById('size-input');
-//   const inputText = document.getElementById('text-input');
-//   const selectStyle = document.getElementById('style-select');
-//   const selectFont
-//   const selectedFont
-//   const selectedStyle
-//   const textSize
-//   const outputText
-// }
+function updateFont() {
+  const inputSize = document.getElementById('size-input');
+  const inputText = document.getElementById('text-input');
+  const selectStyle = document.getElementById('style-select');
+  const selectFont = document.getElementById('font-select');
+  const selectedFont = fontSelect.value;
+  const selectedStyle = styleSelect.value;
+  const textSize = sizeInput.value;
+  const outputText = document.getElemenbById('output-text');
+
+}
