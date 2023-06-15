@@ -250,43 +250,41 @@ document.getElementById("getPColor").addEventListener("click", function () {
 // Font Generator
 
 // fetch available fonts from google api
-fetch(
-  "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
-)
-  .then((response) => reseponse.json())
-  .then((data) => {
-    const selectFont = document.getElementById("font-select");
-    data.items.forEach((font) => {
-      const option = document.createElement("option");
+fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI')
+  .then(response => response.json())
+  .then(data => {
+    const selectFont = document.getElementById('font-select');
+    data.items.forEach(font => {
+      const option = document.createElement('option');
       option.value = font.family;
       option.textContent = font.family;
       selectFont.appendChild(option);
     });
   });
+  
 
 // Function to update the font
 function updateFont() {
-  const inputSize = document.getElementById('size-input');
-  const inputText = document.getElementById('text-input');
-  const selectStyle = document.getElementById('style-select');
+  const inputText = document.getElementById('text-input').value;
   const selectFont = document.getElementById('font-select');
-  const outputText = document.getElemenbById('output-text');
+  const selectStyle = document.getElementById('style-select');
+  const inputSize = document.getElementById('size-input');
   const selectedFont = selectFont.value;
   const selectedStyle = selectStyle.value;
   const textSize = inputSize.value;
+  const outputText = document.getElementById('output-text');
 
   outputText.style.fontFamily = selectedFont;
   outputText.style.fontStyle = selectedStyle;
   outputText.style.fontSize = `${textSize}px`;
-  outputText.textContant = inputText;
+  outputText.textContent = inputText;
 
-}
+};
 
 //Event Listeneres
 document.getElementById('size-input').addEventListener('input', updateFont);
-document.getElementById('text-input')/addEventListener('input', updateFont);
+document.getElementById('text-input').addEventListener('input', updateFont);
 document.getElementById('font-select').addEventListener('change', updateFont);
 document.getElementById('style-input').addEventListener('change', updateFont);
 
-
-
+// End of Chris Code
