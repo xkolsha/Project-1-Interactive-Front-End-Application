@@ -11,6 +11,21 @@ fetch("footer.html")
   .then((response) => response.text())
   .then((data) => (document.getElementById("footer").innerHTML = data));
 
+//getting user location and the weather in it
+(async function getLocation() {
+  try {
+    const ipResponse = await fetch("https://freeipapi.com/api/json");
+    const {ipAddress, latitude, longitude, countryName, countryCode, timeZone, cityName, regionName} = await ipResponse.json()
+    document.getElementById('location').innerHTML=cityName;
+
+    const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&daily=temperature_2m_max&forecast_days=2&timezone=auto`)
+    const {daily} = await weatherResponse.json()
+    document.getElementById('weather').innerHTML=`Temperature tomorrow: ${daily.temperature_2m_max[1]}`;
+  } catch (error) {
+    console.error(error);
+  }
+})();
+
 // ColorAPI base URL
 const colorApiUrl = "https://www.thecolorapi.com/id?hex=";
 
@@ -292,3 +307,5 @@ document.getElementById('style-select').addEventListener('change', updateFont);
 
 // End of Chris Code
 // Code works but is being cancelled out by other code errors. Will clean everything up after merge"
+
+
