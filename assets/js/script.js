@@ -56,8 +56,14 @@ async function updateColorData(hexColor) {
 
     // Fetch QR API with background
     // https://goqr.me/api/
-    const qrResponse = await fetch("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + document.URL + "&color=" +  hex.substring(1))
-    const blob = await qrResponse.blob()
+    const qrResponse = await fetch(
+      "https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" +
+        document.URL +
+        "&color=" +
+        hex.substring(1) +
+        "&format=svg"
+    );
+    const blob = await qrResponse.blob();
     const objectURL = URL.createObjectURL(blob);
 
     // Update corresponding elements with the fetched values
@@ -67,9 +73,9 @@ async function updateColorData(hexColor) {
     document.getElementById("cmyk-value").textContent = cmyk;
     document.getElementById("hsl-value").textContent = hsl;
     document.getElementById("color-name").textContent = imageNamed;
-    const qrImg = document.createElement('img');
+    const qrImg = document.createElement("img");
     qrImg.src = objectURL;
-    document.getElementById("qr").appendChild(qrImg)
+    document.getElementById("qr").appendChild(qrImg);
   } catch (error) {
     console.error("Error updating color data:", error);
   }
