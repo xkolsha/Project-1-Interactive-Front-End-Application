@@ -17,37 +17,55 @@
   </head>
   <body>
     <div id="navbar"></div>
-    <section class="hero has-text-centered">
+    <section class="hero">
       <div class="hero-body">
-        <p class="title">Hero title</p>
-        <p class="subtitle">Hero subtitle</p>
-        <div class="field">
-          <label class="label">Enter a color (hex code)</label>
-          <div class="control">
-            <input
-              id="color-input"
-              class="input smaller-input"
-              type="text"
-              placeholder="e.g., 002e63"
-            />
+        <div class="container">
+          <div class="columns is-vcentered is-centered">
+            <div class="column is-three-fifths has-text-centered">
+              <div class="columns is-vcentered is-centered">
+                <div class="column is-half">
+                  <img
+                    src="./assets/images/logo-vector.svg"
+                    alt="hero logo-image"
+                    class="hero-image"
+                  />
+                </div>
+                <div class="column is-half has-text-left">
+                  <p class="title is-size-1 mb-6">
+                    Fontastic Fusion: Typography Meets Color
+                  </p>
+                  <p class="subtitle is-size-4">
+                    Craft unique designs with curated fonts and dynamic palettes
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="control">
-          <button id="generate-btn" class="button is-link">
-            Generate Palette
-          </button>
+          <div class="field columns is-vcentered">
+            <div class="control column is-one-third">
+              <input
+                id="color-input"
+                class="input is-medium"
+                type="text"
+                placeholder="e.g., 002e63, (0, 46, 99)"
+              />
+            </div>
+            <button
+              id="generate-btn"
+              class="button is-medium is-one-third is-link"
+            >
+              Generate Palette
+            </button>
+          </div>
         </div>
       </div>
     </section>
     <section class="section is-large has-text-centered">
       <div>
-        <h1 class="title">Example</h1>
+        <h1 class="title">Find Your Unique Color</h1>
         <h2 class="subtitle">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-          nostrum sit nisi error sint. Dolore, libero distinctio aperiam iste
-          totam corporis ratione maiores rem facere necessitatibus enim, animi
-          minus alias. <strong>Colors</strong>, like the one you're currently
-          reading.
+          Search your unique color or find inspiration in thousands of beautiful
+          <strong>colors</strong>
         </h2>
       </div>
       <div class="container mt-6">
