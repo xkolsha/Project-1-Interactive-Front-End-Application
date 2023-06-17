@@ -1,9 +1,6 @@
 .card {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
-.smaller-input {
-  max-width: 50vw;
-}
 
 .is-square {
   width: 100%;
