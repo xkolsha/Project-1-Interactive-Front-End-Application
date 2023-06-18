@@ -19,7 +19,6 @@ fetch("footer.html")
 
 // Font Generator
 
-// fetch available fonts from google api
 fetch(
     "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
   )
@@ -36,6 +35,7 @@ fetch(
   
   // Function to update the font
   function updateFont() {
+    
     const inputText = document.getElementById("text-input").value;
     const selectFont = document.getElementById("font-select");
     const selectStyle = document.getElementById("style-select");
@@ -49,6 +49,19 @@ fetch(
     outputText.style.fontStyle = selectedStyle;
     outputText.style.fontSize = `${textSize}px`;
     outputText.textContent = inputText;
+  
+
+    
+    var styleSheetEl = document.createElement("link");
+    var headList = document.getElementById('head-0');
+    
+    styleSheetEl.rel = "stylesheet";
+    styleSheetEl.href = "https://fonts.googleapis.com/css?family=" + selectedFont;
+    
+    headList.removeChild(headList.lastChild);
+    document.head.appendChild(styleSheetEl);
+  
+  
   }
   
   //Event Listeneres
@@ -56,3 +69,5 @@ fetch(
   document.getElementById("text-input").addEventListener("input", updateFont);
   document.getElementById("font-select").addEventListener("change", updateFont);
   document.getElementById("style-select").addEventListener("change", updateFont);
+  
+  // End of Chris Code
