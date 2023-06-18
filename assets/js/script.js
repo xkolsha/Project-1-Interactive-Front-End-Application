@@ -1,10 +1,20 @@
 // ----------------------------------------------------------------------------------------
 // Start of Aviad Code:
 
-// function to add the navbar to the page
+// function to add the navbar to the page and make it responsive
 fetch("navbar.html")
   .then((response) => response.text())
-  .then((data) => (document.getElementById("navbar").innerHTML = data));
+  .then((data) => {
+    document.getElementById("navbar").innerHTML = data;
+
+    const burger = document.querySelector(".navbar-burger");
+    const menu = document.querySelector("#" + burger.dataset.target);
+
+    burger.addEventListener("click", () => {
+      burger.classList.toggle("is-active");
+      menu.classList.toggle("is-active");
+    });
+  });
 
 // function to add the footer to the page
 fetch("footer.html")
@@ -53,6 +63,18 @@ async function updateColorData(hexColor) {
     const hsl = data.hsl.value;
     const imageNamed = data.name.value;
 
+    // Fetch QR API with background
+    // https://goqr.me/api/
+    const qrResponse = await fetch(
+      "https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" +
+        document.URL +
+        "&color=" +
+        hex.substring(1) +
+        "&format=svg"
+    );
+    const blob = await qrResponse.blob();
+    const objectURL = URL.createObjectURL(blob);
+
     // Update corresponding elements with the fetched values
     document.getElementById("rgb-value").textContent = rgb;
     document.getElementById("hex-value").textContent = hex;
@@ -60,7 +82,9 @@ async function updateColorData(hexColor) {
     document.getElementById("cmyk-value").textContent = cmyk;
     document.getElementById("hsl-value").textContent = hsl;
     document.getElementById("color-name").textContent = imageNamed;
-    document.getElementById("mainColor").style.backgroundColor = hex;
+    const qrImg = document.createElement("img");
+    qrImg.src = objectURL;
+    document.getElementById("qr").appendChild(qrImg);
   } catch (error) {
     console.error("Error updating color data:", error);
   }
@@ -256,7 +280,7 @@ document.getElementById("getPColor").addEventListener("click", function () {
 fetch(
   "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
 )
-  .then((response) => reseponse.json())
+  .then((response) => response.json())
   .then((data) => {
     const selectFont = document.getElementById("font-select");
     data.items.forEach((font) => {
@@ -267,13 +291,28 @@ fetch(
     });
   });
 
-// function updateFont() {
-//   const inputSize = document.getElementById('size-input');
-//   const inputText = document.getElementById('text-input');
-//   const selectStyle = document.getElementById('style-select');
-//   const selectFont
-//   const selectedFont
-//   const selectedStyle
-//   const textSize
-//   const outputText
-// }
+// Function to update the font
+function updateFont() {
+  const inputText = document.getElementById("text-input").value;
+  const selectFont = document.getElementById("font-select");
+  const selectStyle = document.getElementById("style-select");
+  const inputSize = document.getElementById("size-input");
+  const selectedFont = selectFont.value;
+  const selectedStyle = selectStyle.value;
+  const textSize = inputSize.value;
+  const outputText = document.getElementById("output-text");
+
+  outputText.style.fontFamily = selectedFont;
+  outputText.style.fontStyle = selectedStyle;
+  outputText.style.fontSize = `${textSize}px`;
+  outputText.textContent = inputText;
+}
+
+//Event Listeneres
+document.getElementById("size-input").addEventListener("input", updateFont);
+document.getElementById("text-input").addEventListener("input", updateFont);
+document.getElementById("font-select").addEventListener("change", updateFont);
+document.getElementById("style-select").addEventListener("change", updateFont);
+
+// End of Chris Code
+// Code works but is being cancelled out by other code errors. Will clean everything up after merge"
