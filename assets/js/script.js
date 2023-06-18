@@ -195,12 +195,13 @@ setColorForRandomFill();
 
 const lastColor = localStorage.getItem('color');
 
+if (window.location.pathname === "/index.html") {
 if (lastColor) {
   const lastColorDisplay = document.getElementById('last-color-display');
   lastColorDisplay.style.background= '#' + lastColor;
   lastColorDisplay.style.display = 'block';
 }
-
+}
 
 if (window.location.pathname === "/index.html") {
 document.getElementById("generate-btn").addEventListener("click", function () {
