@@ -76,6 +76,8 @@ async function updateColorData(hexColor) {
     const objectURL = URL.createObjectURL(blob);
 
     // Update corresponding elements with the fetched values
+    // Updated so this would only pull on color.html page as it was erroring on index.html
+    if (window.location.pathname === "/color.html") {
     document.getElementById("rgb-value").textContent = rgb;
     document.getElementById("hex-value").textContent = hex;
     document.getElementById("hsv-value").textContent = hsv;
@@ -85,6 +87,7 @@ async function updateColorData(hexColor) {
     const qrImg = document.createElement("img");
     qrImg.src = objectURL;
     document.getElementById("qr").appendChild(qrImg);
+    }
   } catch (error) {
     console.error("Error updating color data:", error);
   }
@@ -137,6 +140,8 @@ async function updateSchemeData(hexColor) {
       const data = await response.json();
       const colors = data.colors.map((color) => color.hex.value);
 
+      // Updated so this would only pull on color.html page as it was erroring on index.html
+      if (window.location.pathname === "/color.html") {
       // Update the cards with the extracted values
       for (let i = 1; i <= 5; i++) {
         const card = document.getElementById(`${mode}-color-${i}`);
@@ -145,6 +150,8 @@ async function updateSchemeData(hexColor) {
         setTextBrightness(card, colors[i - 1]);
       }
     }
+  }
+    
   } catch (error) {
     console.error("Error updating scheme data:", error);
   }
@@ -186,6 +193,17 @@ if (color) {
 
 setColorForRandomFill();
 
+const lastColor = localStorage.getItem('color');
+
+if (window.location.pathname === "/index.html") {
+if (lastColor) {
+  const lastColorDisplay = document.getElementById('last-color-display');
+  lastColorDisplay.style.background= '#' + lastColor;
+  lastColorDisplay.style.display = 'block';
+}
+}
+
+if (window.location.pathname === "/index.html") {
 document.getElementById("generate-btn").addEventListener("click", function () {
   let inputColor = document.getElementById("color-input").value;
 
@@ -196,12 +214,14 @@ document.getElementById("generate-btn").addEventListener("click", function () {
   }
 
   if (inputColor) {
+    localStorage.setItem('color',inputColor);
     window.location.href = "color.html?color=" + inputColor;
   } else {
+    localStorage.removeItem('color');
     window.location.href = "color.html";
   }
 });
-
+}
 // End of Aviad Code
 
 // Start of Chris Code:
@@ -209,7 +229,8 @@ document.getElementById("generate-btn").addEventListener("click", function () {
 // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas This is for the ReadMe
 
-document.getElementById("getPColor").addEventListener("click", function () {
+if (window.location.pathname === "/index.html") {
+document.getElementById("generate-btn").addEventListener("click", function () {
   // get url from the image input
   var imageUrl = document.getElementById("imageInput").value;
 
@@ -261,58 +282,25 @@ document.getElementById("getPColor").addEventListener("click", function () {
       return colorData[a] > colorData[b] ? a : b;
     });
 
+    var urlHex = rbgToHex(primaryColor);
+
     // This will be the output for the generated color from the image to work with the color api
     document.getElementById("colorOutput").style.backgroundColor =
       "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
     document.getElementById("colorOutput").textContent =
       "Primary Color: " + primaryColor;
+
+      // Need to find out how to run this through color api.
+      var hexCodeUrl= "https://www.thecolorapi.com/scheme?hex=${urlHex}&mode=${mode}&count=5";
+      console.log('url hex code', hexCodeUrl);
   };
+
 
   //on error message incase the image can not load. (from line 176)
   image.onerror = function () {
     document.getElementById("colorOutput").textContent = "Error loading image.";
   };
 });
+};
 
-// Font Generator
-
-// fetch available fonts from google api
-fetch(
-  "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
-)
-  .then((response) => response.json())
-  .then((data) => {
-    const selectFont = document.getElementById("font-select");
-    data.items.forEach((font) => {
-      const option = document.createElement("option");
-      option.value = font.family;
-      option.textContent = font.family;
-      selectFont.appendChild(option);
-    });
-  });
-
-// Function to update the font
-function updateFont() {
-  const inputText = document.getElementById("text-input").value;
-  const selectFont = document.getElementById("font-select");
-  const selectStyle = document.getElementById("style-select");
-  const inputSize = document.getElementById("size-input");
-  const selectedFont = selectFont.value;
-  const selectedStyle = selectStyle.value;
-  const textSize = inputSize.value;
-  const outputText = document.getElementById("output-text");
-
-  outputText.style.fontFamily = selectedFont;
-  outputText.style.fontStyle = selectedStyle;
-  outputText.style.fontSize = `${textSize}px`;
-  outputText.textContent = inputText;
-}
-
-//Event Listeneres
-document.getElementById("size-input").addEventListener("input", updateFont);
-document.getElementById("text-input").addEventListener("input", updateFont);
-document.getElementById("font-select").addEventListener("change", updateFont);
-document.getElementById("style-select").addEventListener("change", updateFont);
-
-// End of Chris Code
 // Code works but is being cancelled out by other code errors. Will clean everything up after merge"
