@@ -229,7 +229,7 @@ document.getElementById("generate-btn").addEventListener("click", function () {
 // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas This is for the ReadMe
 
-if (window.location.pathname === "/index.html") {
+if (window.location.pathname === "/index.html") 
 document.getElementById("generate-btn").addEventListener("click", function () {
   // get url from the image input
   var imageUrl = document.getElementById("imageInput").value;
@@ -276,7 +276,7 @@ document.getElementById("generate-btn").addEventListener("click", function () {
         colorData[rbg] = 1;
       }
     }
-
+  
     // find the primary color based on the highest colorData count
     var primaryColor = Object.keys(colorData).reduce(function (a, b) {
       return colorData[a] > colorData[b] ? a : b;
@@ -301,8 +301,5 @@ document.getElementById("generate-btn").addEventListener("click", function () {
     document.getElementById("colorOutput").textContent = "Error loading image.";
   };
 });
-};
-
-
 
 
