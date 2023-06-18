@@ -76,6 +76,8 @@ async function updateColorData(hexColor) {
     const objectURL = URL.createObjectURL(blob);
 
     // Update corresponding elements with the fetched values
+    // Updated so this would only pull on color.html page as it was erroring on index.html
+    if (window.location.pathname === "/color.html") {
     document.getElementById("rgb-value").textContent = rgb;
     document.getElementById("hex-value").textContent = hex;
     document.getElementById("hsv-value").textContent = hsv;
@@ -85,6 +87,7 @@ async function updateColorData(hexColor) {
     const qrImg = document.createElement("img");
     qrImg.src = objectURL;
     document.getElementById("qr").appendChild(qrImg);
+    }
   } catch (error) {
     console.error("Error updating color data:", error);
   }
@@ -137,6 +140,8 @@ async function updateSchemeData(hexColor) {
       const data = await response.json();
       const colors = data.colors.map((color) => color.hex.value);
 
+      // Updated so this would only pull on color.html page as it was erroring on index.html
+      if (window.location.pathname === "/color.html") {
       // Update the cards with the extracted values
       for (let i = 1; i <= 5; i++) {
         const card = document.getElementById(`${mode}-color-${i}`);
@@ -145,6 +150,8 @@ async function updateSchemeData(hexColor) {
         setTextBrightness(card, colors[i - 1]);
       }
     }
+  }
+    
   } catch (error) {
     console.error("Error updating scheme data:", error);
   }
