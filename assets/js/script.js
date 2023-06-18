@@ -193,6 +193,13 @@ if (color) {
 
 setColorForRandomFill();
 
+const lastColor = localStorage.getItem('color');
+
+if (lastColor) {
+  const lastColorDisplay = document.getElementById('last-color-display');
+  lastColorDisplay.style.background= '#' + lastColor;
+  lastColorDisplay.style.display = 'block';
+}
 
 
 if (window.location.pathname === "/index.html") {
@@ -206,8 +213,10 @@ document.getElementById("generate-btn").addEventListener("click", function () {
   }
 
   if (inputColor) {
+    localStorage.setItem('color',inputColor);
     window.location.href = "color.html?color=" + inputColor;
   } else {
+    localStorage.removeItem('color');
     window.location.href = "color.html";
   }
 });
