@@ -72,21 +72,21 @@ async function updateColorData(hexColor) {
         hex.substring(1) +
         "&format=svg"
     );
-    const blob = await qrResponse.blob();
-    const objectURL = URL.createObjectURL(blob);
+    // const blob = await qrResponse.blob();
+    // const objectURL = URL.createObjectURL(blob);
 
     // Update corresponding elements with the fetched values
     // Updated so this would only pull on color.html page as it was erroring on index.html
-    if (window.location.pathname === "./color.html") {
+    if (window.location.pathname === "/color.html") {
       document.getElementById("rgb-value").textContent = rgb;
       document.getElementById("hex-value").textContent = hex;
       document.getElementById("hsv-value").textContent = hsv;
       document.getElementById("cmyk-value").textContent = cmyk;
       document.getElementById("hsl-value").textContent = hsl;
       document.getElementById("color-name").textContent = imageNamed;
-      const qrImg = document.createElement("img");
-      qrImg.src = objectURL;
-      document.getElementById("qr").appendChild(qrImg);
+      // const qrImg = document.createElement("img");
+      // qrImg.src = objectURL;
+      // document.getElementById("qr").appendChild(qrImg);
     }
   } catch (error) {
     console.error("Error updating color data:", error);
@@ -141,7 +141,7 @@ async function updateSchemeData(hexColor) {
       const colors = data.colors.map((color) => color.hex.value);
 
       // Updated so this would only pull on color.html page as it was erroring on index.html
-      if (window.location.pathname === "./color.html") {
+      if (window.location.pathname === "/color.html") {
         // Update the cards with the extracted values
         for (let i = 1; i <= 5; i++) {
           const card = document.getElementById(`${mode}-color-${i}`);
@@ -194,7 +194,7 @@ setColorForRandomFill();
 
 const lastColor = localStorage.getItem("color");
 
-if (window.location.pathname === "./index.html") {
+if (window.location.pathname === "/index.html") {
   if (lastColor) {
     const lastColorDisplay = document.getElementById("last-color-display");
     lastColorDisplay.style.background = "#" + lastColor;
@@ -202,7 +202,7 @@ if (window.location.pathname === "./index.html") {
   }
 }
 
-if (window.location.pathname === "./index.html") {
+if (window.location.pathname === "/index.html") {
   document
     .getElementById("generate-btn")
     .addEventListener("click", function () {
@@ -230,7 +230,7 @@ if (window.location.pathname === "./index.html") {
 // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas This is for the ReadMe
 
-if (window.location.pathname === "./index.html") {
+if (window.location.pathname === "/index.html") {
   document
     .getElementById("generate-btn")
     .addEventListener("click", function () {
