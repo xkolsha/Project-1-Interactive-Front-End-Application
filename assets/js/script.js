@@ -303,4 +303,6 @@ document.getElementById("generate-btn").addEventListener("click", function () {
 });
 };
 
-// Code works but is being cancelled out by other code errors. Will clean everything up after merge"
+
+
+
