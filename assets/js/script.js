@@ -78,15 +78,15 @@ async function updateColorData(hexColor) {
     // Update corresponding elements with the fetched values
     // Updated so this would only pull on color.html page as it was erroring on index.html
     if (window.location.pathname === "/color.html") {
-    document.getElementById("rgb-value").textContent = rgb;
-    document.getElementById("hex-value").textContent = hex;
-    document.getElementById("hsv-value").textContent = hsv;
-    document.getElementById("cmyk-value").textContent = cmyk;
-    document.getElementById("hsl-value").textContent = hsl;
-    document.getElementById("color-name").textContent = imageNamed;
-    const qrImg = document.createElement("img");
-    qrImg.src = objectURL;
-    document.getElementById("qr").appendChild(qrImg);
+      document.getElementById("rgb-value").textContent = rgb;
+      document.getElementById("hex-value").textContent = hex;
+      document.getElementById("hsv-value").textContent = hsv;
+      document.getElementById("cmyk-value").textContent = cmyk;
+      document.getElementById("hsl-value").textContent = hsl;
+      document.getElementById("color-name").textContent = imageNamed;
+      const qrImg = document.createElement("img");
+      qrImg.src = objectURL;
+      document.getElementById("qr").appendChild(qrImg);
     }
   } catch (error) {
     console.error("Error updating color data:", error);
@@ -142,16 +142,15 @@ async function updateSchemeData(hexColor) {
 
       // Updated so this would only pull on color.html page as it was erroring on index.html
       if (window.location.pathname === "/color.html") {
-      // Update the cards with the extracted values
-      for (let i = 1; i <= 5; i++) {
-        const card = document.getElementById(`${mode}-color-${i}`);
-        card.style.backgroundColor = colors[i - 1];
-        card.textContent = colors[i - 1];
-        setTextBrightness(card, colors[i - 1]);
+        // Update the cards with the extracted values
+        for (let i = 1; i <= 5; i++) {
+          const card = document.getElementById(`${mode}-color-${i}`);
+          card.style.backgroundColor = colors[i - 1];
+          card.textContent = colors[i - 1];
+          setTextBrightness(card, colors[i - 1]);
+        }
       }
     }
-  }
-    
   } catch (error) {
     console.error("Error updating scheme data:", error);
   }
@@ -193,34 +192,36 @@ if (color) {
 
 setColorForRandomFill();
 
-const lastColor = localStorage.getItem('color');
+const lastColor = localStorage.getItem("color");
 
 if (window.location.pathname === "/index.html") {
-if (lastColor) {
-  const lastColorDisplay = document.getElementById('last-color-display');
-  lastColorDisplay.style.background= '#' + lastColor;
-  lastColorDisplay.style.display = 'block';
-}
+  if (lastColor) {
+    const lastColorDisplay = document.getElementById("last-color-display");
+    lastColorDisplay.style.background = "#" + lastColor;
+    lastColorDisplay.style.display = "block";
+  }
 }
 
 if (window.location.pathname === "/index.html") {
-document.getElementById("generate-btn").addEventListener("click", function () {
-  let inputColor = document.getElementById("color-input").value;
+  document
+    .getElementById("generate-btn")
+    .addEventListener("click", function () {
+      let inputColor = document.getElementById("color-input").value;
 
-  // Check if input is RGB or HEX
-  if (inputColor.includes(",")) {
-    // If it's RGB, convert it to HEX
-    inputColor = rgbToHex(inputColor);
-  }
+      // Check if input is RGB or HEX
+      if (inputColor.includes(",")) {
+        // If it's RGB, convert it to HEX
+        inputColor = rgbToHex(inputColor);
+      }
 
-  if (inputColor) {
-    localStorage.setItem('color',inputColor);
-    window.location.href = "color.html?color=" + inputColor;
-  } else {
-    localStorage.removeItem('color');
-    window.location.href = "color.html";
-  }
-});
+      if (inputColor) {
+        localStorage.setItem("color", inputColor);
+        window.location.href = "color.html?color=" + inputColor;
+      } else {
+        localStorage.removeItem("color");
+        window.location.href = "color.html";
+      }
+    });
 }
 // End of Aviad Code
 
@@ -229,77 +230,79 @@ document.getElementById("generate-btn").addEventListener("click", function () {
 // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas This is for the ReadMe
 
-if (window.location.pathname === "/index.html") 
-document.getElementById("generate-btn").addEventListener("click", function () {
-  // get url from the image input
-  var imageUrl = document.getElementById("imageInput").value;
+if (window.location.pathname === "/index.html") {
+  document
+    .getElementById("generate-btn")
+    .addEventListener("click", function () {
+      // get url from the image input
+      var imageUrl = document.getElementById("imageInput").value;
 
-  // Create a new Image object and set properties
-  var image = new Image();
-  image.crossOrigin = "Anonymous"; // allows us to load images from different domains
-  image.src = imageUrl; // set the source of the image
+      // Create a new Image object and set properties
+      var image = new Image();
+      image.crossOrigin = "Anonymous"; // allows us to load images from different domains
+      image.src = imageUrl; // set the source of the image
 
-  // Event handler that runs when the image has finished loading
-  image.onload = function () {
-    //creates a canvas element with the same dimensions as the loaded image
-    var canvas = document.createElement("canvas");
-    canvas.width = image.width;
-    canvas.height = image.height;
+      // Event handler that runs when the image has finished loading
+      image.onload = function () {
+        //creates a canvas element with the same dimensions as the loaded image
+        var canvas = document.createElement("canvas");
+        canvas.width = image.width;
+        canvas.height = image.height;
 
-    // gets the 2d rendering context for the canvas
-    var context = canvas.getContext("2d");
-    context.drawImage(image, 0, 0); // draw the loaded image onto the canvs
+        // gets the 2d rendering context for the canvas
+        var context = canvas.getContext("2d");
+        context.drawImage(image, 0, 0); // draw the loaded image onto the canvs
 
-    // gets the pixel data of the canvas image
-    var imageData = context.getImageData(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    ).data;
+        // gets the pixel data of the canvas image
+        var imageData = context.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        ).data;
 
-    //create an object to keep track of the amount of colors
-    var colorData = {};
+        //create an object to keep track of the amount of colors
+        var colorData = {};
 
-    // goes over generated pixel data to get the Rbg values
-    for (var i = 0; i < imageData.length; i += 4) {
-      var r = imageData[i]; // red
-      var g = imageData[i + 1]; // green
-      var b = imageData[i + 2]; // blue
+        // goes over generated pixel data to get the Rbg values
+        for (var i = 0; i < imageData.length; i += 4) {
+          var r = imageData[i]; // red
+          var g = imageData[i + 1]; // green
+          var b = imageData[i + 2]; // blue
 
-      var rbg = r + "," + g + "," + b;
+          var rbg = r + "," + g + "," + b;
 
-      // update the color count in (colorData)
-      if (colorData[rbg]) {
-        colorData[rbg]++;
-      } else {
-        colorData[rbg] = 1;
-      }
-    }
-  
-    // find the primary color based on the highest colorData count
-    var primaryColor = Object.keys(colorData).reduce(function (a, b) {
-      return colorData[a] > colorData[b] ? a : b;
+          // update the color count in (colorData)
+          if (colorData[rbg]) {
+            colorData[rbg]++;
+          } else {
+            colorData[rbg] = 1;
+          }
+        }
+
+        // find the primary color based on the highest colorData count
+        var primaryColor = Object.keys(colorData).reduce(function (a, b) {
+          return colorData[a] > colorData[b] ? a : b;
+        });
+
+        var urlHex = rbgToHex(primaryColor);
+
+        // This will be the output for the generated color from the image to work with the color api
+        document.getElementById("colorOutput").style.backgroundColor =
+          "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
+        document.getElementById("colorOutput").textContent =
+          "Primary Color: " + primaryColor;
+
+        // Need to find out how to run this through color api.
+        var hexCodeUrl =
+          "https://www.thecolorapi.com/scheme?hex=${urlHex}&mode=${mode}&count=5";
+        console.log("url hex code", hexCodeUrl);
+      };
+
+      //on error message incase the image can not load. (from line 176)
+      image.onerror = function () {
+        document.getElementById("colorOutput").textContent =
+          "Error loading image.";
+      };
     });
-
-    var urlHex = rbgToHex(primaryColor);
-
-    // This will be the output for the generated color from the image to work with the color api
-    document.getElementById("colorOutput").style.backgroundColor =
-      "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
-    document.getElementById("colorOutput").textContent =
-      "Primary Color: " + primaryColor;
-
-      // Need to find out how to run this through color api.
-      var hexCodeUrl= "https://www.thecolorapi.com/scheme?hex=${urlHex}&mode=${mode}&count=5";
-      console.log('url hex code', hexCodeUrl);
-  };
-
-
-  //on error message incase the image can not load. (from line 176)
-  image.onerror = function () {
-    document.getElementById("colorOutput").textContent = "Error loading image.";
-  };
-});
-
-
+}
