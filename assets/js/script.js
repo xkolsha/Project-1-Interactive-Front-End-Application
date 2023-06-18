@@ -261,12 +261,19 @@ document.getElementById("getPColor").addEventListener("click", function () {
       return colorData[a] > colorData[b] ? a : b;
     });
 
+    var urlHex = rbgToHex(primaryColor);
+
     // This will be the output for the generated color from the image to work with the color api
     document.getElementById("colorOutput").style.backgroundColor =
       "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
     document.getElementById("colorOutput").textContent =
       "Primary Color: " + primaryColor;
+
+      // Need to find out how to run this through color api.
+      var hexCodeUrl= "https://www.thecolorapi.com/scheme?hex=${urlHex}&mode=${mode}&count=5";
+      console.log('url hex code', hexCodeUrl);
   };
+
 
   //on error message incase the image can not load. (from line 176)
   image.onerror = function () {
