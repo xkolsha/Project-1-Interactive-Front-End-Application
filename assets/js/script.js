@@ -223,6 +223,7 @@ function updateLastColorsDisplay() {
     if (lastColors[i]) {
       colorDisplay.style.backgroundColor = "#" + lastColors[i];
       colorDisplay.textContent = "#" + lastColors[i];
+      setTextBrightness(colorDisplay, lastColors[i]);
     } else {
       colorDisplay.style.backgroundColor = "#FFFFFF";
       colorDisplay.textContent = "";
