@@ -81,8 +81,10 @@ function updateFont() {
   const headList = document.getElementById("head-0");
 
   styleSheetEl.rel = "stylesheet";
-  styleSheetEl.href = `https://fonts.googleapis.com/css?family=${selectedFont}`;
-
+  styleSheetEl.href = `https://fonts.googleapis.com/css?family=${selectedFont.replace(
+    " ",
+    "+"
+  )}`;
   document.head.appendChild(styleSheetEl);
 
   outputText.appendChild(styleSheetEl.cloneNode(true));
