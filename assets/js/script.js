@@ -263,11 +263,10 @@ if (window.location.pathname.endsWith("index.html")) {
       updateLastColorsDisplay();
     });
 }
-if (window.location.pathname.endsWith("index.html")) {
-  document
+
+document;
 window.onload = function () {
   updateLastColorsDisplay();
-};
 };
 
 //TODO - Add the ability to pull the dominant color from an image
