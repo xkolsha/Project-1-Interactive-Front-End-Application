@@ -39,10 +39,10 @@ fetch(
 
 // function to update the font on the page
 function updateFont() {
-  const inputText = document.getElementById("text-input");
   const selectFont = document.getElementById("font-select");
+  const selectedFont = selectFont.value || "Roboto";
+  const inputText = document.getElementById("text-input");
   const inputSize = document.getElementById("size-input");
-  const selectedFont = selectFont.value;
   const selectedStyle = document.querySelector(
     'input[name="style"]:checked'
   ).value;
@@ -81,7 +81,7 @@ function updateFont() {
   const headList = document.getElementById("head-0");
 
   styleSheetEl.rel = "stylesheet";
-  styleSheetEl.href = "https://fonts.googleapis.com/css?family=" + selectedFont;
+  styleSheetEl.href = `https://fonts.googleapis.com/css?family=${selectedFont}`;
 
   document.head.appendChild(styleSheetEl);
 
