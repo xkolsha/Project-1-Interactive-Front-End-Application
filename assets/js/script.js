@@ -1,6 +1,3 @@
-// ----------------------------------------------------------------------------------------
-// Start of Aviad Code:
-
 // function to add the navbar to the page and make it responsive
 fetch("navbar.html")
   .then((response) => response.text())
@@ -38,9 +35,6 @@ function getRandomHexColor() {
 
 // Calculate the brightness of the background color to determine if it's light or dark
 // #RRGGBB (e.g., #534C8A) represents RGB color; each 2-digit hex like 53, 4c, or 8a converts to decimal via (16 * 1st digit + 1 * 2nd digit), with a maximum value of 255 (FF)
-// Reference: https://en.wikipedia.org/wiki/Relative_luminance
-// Reference: https://www.w3schools.com/jsref/jsref_slice_string.asp
-// Reference: https://www.colorhexa.com/534C8A
 function calculateBrightness(hexColor) {
   const r = parseInt(hexColor.slice(0, 2), 16);
   const g = parseInt(hexColor.slice(2, 4), 16);
@@ -274,86 +268,81 @@ window.onload = function () {
   updateLastColorsDisplay();
 };
 
-// End of Aviad Code
+//TODO - Add the ability to pull the dominant color from an image
+// // Function to convert an RGB value to HEX
+// if (window.location.pathname.endsWith("index.html")) {
+//   document
+//     .getElementById("generate-btn")
+//     .addEventListener("click", function () {
+//       // get url from the image input
+//       var imageUrl = document.getElementById("imageInput").value;
 
-// Start of Chris Code:
-// https://www.javascripttutorial.net/web-apis/javascript-canvas/ This is for ReadMe File
-// https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image This is for the ReadMe file
-// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas This is for the ReadMe
+//       // Create a new Image object and set properties
+//       var image = new Image();
+//       image.crossOrigin = "Anonymous"; // allows us to load images from different domains
+//       image.src = imageUrl; // set the source of the image
 
-if (window.location.pathname.endsWith("index.html")) {
-  document
-    .getElementById("generate-btn")
-    .addEventListener("click", function () {
-      // get url from the image input
-      var imageUrl = document.getElementById("imageInput").value;
+//       // Event handler that runs when the image has finished loading
+//       image.onload = function () {
+//         //creates a canvas element with the same dimensions as the loaded image
+//         var canvas = document.createElement("canvas");
+//         canvas.width = image.width;
+//         canvas.height = image.height;
 
-      // Create a new Image object and set properties
-      var image = new Image();
-      image.crossOrigin = "Anonymous"; // allows us to load images from different domains
-      image.src = imageUrl; // set the source of the image
+//         // gets the 2d rendering context for the canvas
+//         var context = canvas.getContext("2d");
+//         context.drawImage(image, 0, 0); // draw the loaded image onto the canvs
 
-      // Event handler that runs when the image has finished loading
-      image.onload = function () {
-        //creates a canvas element with the same dimensions as the loaded image
-        var canvas = document.createElement("canvas");
-        canvas.width = image.width;
-        canvas.height = image.height;
+//         // gets the pixel data of the canvas image
+//         var imageData = context.getImageData(
+//           0,
+//           0,
+//           canvas.width,
+//           canvas.height
+//         ).data;
 
-        // gets the 2d rendering context for the canvas
-        var context = canvas.getContext("2d");
-        context.drawImage(image, 0, 0); // draw the loaded image onto the canvs
+//         //create an object to keep track of the amount of colors
+//         var colorData = {};
 
-        // gets the pixel data of the canvas image
-        var imageData = context.getImageData(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        ).data;
+//         // goes over generated pixel data to get the Rbg values
+//         for (var i = 0; i < imageData.length; i += 4) {
+//           var r = imageData[i]; // red
+//           var g = imageData[i + 1]; // green
+//           var b = imageData[i + 2]; // blue
 
-        //create an object to keep track of the amount of colors
-        var colorData = {};
+//           var rbg = r + "," + g + "," + b;
 
-        // goes over generated pixel data to get the Rbg values
-        for (var i = 0; i < imageData.length; i += 4) {
-          var r = imageData[i]; // red
-          var g = imageData[i + 1]; // green
-          var b = imageData[i + 2]; // blue
+//           // update the color count in (colorData)
+//           if (colorData[rbg]) {
+//             colorData[rbg]++;
+//           } else {
+//             colorData[rbg] = 1;
+//           }
+//         }
 
-          var rbg = r + "," + g + "," + b;
+//         // find the primary color based on the highest colorData count
+//         var primaryColor = Object.keys(colorData).reduce(function (a, b) {
+//           return colorData[a] > colorData[b] ? a : b;
+//         });
 
-          // update the color count in (colorData)
-          if (colorData[rbg]) {
-            colorData[rbg]++;
-          } else {
-            colorData[rbg] = 1;
-          }
-        }
+//         var urlHex = rbgToHex(primaryColor);
 
-        // find the primary color based on the highest colorData count
-        var primaryColor = Object.keys(colorData).reduce(function (a, b) {
-          return colorData[a] > colorData[b] ? a : b;
-        });
+//         // This will be the output for the generated color from the image to work with the color api
+//         document.getElementById("colorOutput").style.backgroundColor =
+//           "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
+//         document.getElementById("colorOutput").textContent =
+//           "Primary Color: " + primaryColor;
 
-        var urlHex = rbgToHex(primaryColor);
+//         // Need to find out how to run this through color api.
+//         var hexCodeUrl =
+//           "https://www.thecolorapi.com/scheme?hex=${urlHex}&mode=${mode}&count=5";
+//         console.log("url hex code", hexCodeUrl);
+//       };
 
-        // This will be the output for the generated color from the image to work with the color api
-        document.getElementById("colorOutput").style.backgroundColor =
-          "rbg(" + primaryColor + ")"; // is not needed if we generate a palette through colorapi
-        document.getElementById("colorOutput").textContent =
-          "Primary Color: " + primaryColor;
-
-        // Need to find out how to run this through color api.
-        var hexCodeUrl =
-          "https://www.thecolorapi.com/scheme?hex=${urlHex}&mode=${mode}&count=5";
-        console.log("url hex code", hexCodeUrl);
-      };
-
-      //on error message incase the image can not load. (from line 176)
-      image.onerror = function () {
-        document.getElementById("colorOutput").textContent =
-          "Error loading image.";
-      };
-    });
-}
+//       //on error message incase the image can not load. (from line 176)
+//       image.onerror = function () {
+//         document.getElementById("colorOutput").textContent =
+//           "Error loading image.";
+//       };
+//     });
+// }

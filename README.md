@@ -41,7 +41,8 @@ SO THAT I can create harmonious color schemes for my projects.
 
 ## Mock Up
 
-![Mock up of the website](./assets/images/Web%20capture_13-6-2023_211247_127.0.0.1.jpeg)
+![Mock up of the website](./assets/images/Web%20capture_19-6-2023_174656_127.0.0.1.jpeg)
+![Mock up of the website](./assets/images/Web%20capture_19-6-2023_174741_127.0.0.1.jpeg)
 
 ## GitHub Repository
 
@@ -55,15 +56,17 @@ https://xkolsha.github.io/Project-1-Interactive-Front-End-Application/index.html
 
 - https://coding-boot-camp.github.io/full-stack/github/professional-readme-guide
 - https://bulma.io/
-- https://openweathermap.org/api
-- https://openweathermap.org/weather-conditions
+- https://www.javascripttutorial.net/web-apis/javascript-canvas
+- https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
+- https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas
+- https://en.wikipedia.org/wiki/Relative_luminance
+- https://www.w3schools.com/jsref/jsref_slice_string.asp
+- https://www.colorhexa.com/534C8A
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
 - https://www.w3schools.com/
 - http://meyerweb.com/eric/tools/css/reset/
 - https://github.com/necolas/normalize.css
 - https://courses.bootcampspot.com/ (Challenge description)
-- https://www.youtube.com/@code
-- https://www.udemy.com/course/the-web-developer-bootcamp
 
 ## License
 
