@@ -190,29 +190,6 @@ if (color) {
 
 setColorForRandomFill();
 
-const lastColor = localStorage.getItem("color");
-
-// For each card, set its background color to the last five colors the user looked for
-function setColorForLastFiveColors() {
-  const lastColors = localStorage.getItem("color")
-    ? localStorage.getItem("color").split(",").reverse()
-    : [];
-
-  const cards = document.querySelectorAll(".last-color-display");
-  cards.forEach((card, index) => {
-    if (index < lastColors.length) {
-      const color = lastColors[index];
-      card.style.backgroundColor = "#" + color;
-      card.style.cursor = "pointer";
-      card.textContent = "#" + color;
-      setTextBrightness(card, color);
-      card.onclick = function () {
-        window.open("color.html?color=" + color, "_self");
-      };
-    }
-  });
-}
-
 if (window.location.pathname.endsWith("index.html")) {
   document
     .getElementById("generate-btn")
@@ -234,6 +211,61 @@ if (window.location.pathname.endsWith("index.html")) {
       }
     });
 }
+
+// Call this function to update the last searched colors display
+function updateLastColorsDisplay() {
+  // Get the colors from local storage
+  const lastColors = JSON.parse(localStorage.getItem("lastColors")) || [];
+
+  // Update the display
+  for (let i = 0; i < 5; i++) {
+    const colorDisplay = document.getElementById(`last-color-display-${i + 1}`);
+    if (lastColors[i]) {
+      colorDisplay.style.backgroundColor = "#" + lastColors[i];
+      colorDisplay.textContent = "#" + lastColors[i];
+    } else {
+      colorDisplay.style.backgroundColor = "#FFFFFF";
+      colorDisplay.textContent = "";
+    }
+  }
+}
+
+if (window.location.pathname.endsWith("index.html")) {
+  document
+    .getElementById("generate-btn")
+    .addEventListener("click", function () {
+      let inputColor = document.getElementById("color-input").value;
+
+      // Check if input is RGB or HEX
+      if (inputColor.includes(",")) {
+        // If it's RGB, convert it to HEX
+        inputColor = rgbToHex(inputColor);
+      }
+
+      if (inputColor) {
+        // Save the color to local storage
+        let lastColors = JSON.parse(localStorage.getItem("lastColors")) || [];
+        lastColors.unshift(inputColor);
+        if (lastColors.length > 5) {
+          lastColors = lastColors.slice(0, 5);
+        }
+        localStorage.setItem("lastColors", JSON.stringify(lastColors));
+
+        window.location.href = "color.html?color=" + inputColor;
+      } else {
+        localStorage.removeItem("color");
+        window.location.href = "color.html";
+      }
+
+      // Update the last searched colors display
+      updateLastColorsDisplay();
+    });
+}
+
+window.onload = function () {
+  updateLastColorsDisplay();
+};
+
 // End of Aviad Code
 
 // Start of Chris Code:
