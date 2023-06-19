@@ -63,20 +63,7 @@ async function updateColorData(hexColor) {
     const hsl = data.hsl.value;
     const imageNamed = data.name.value;
 
-    // Fetch QR API with background
-    // https://goqr.me/api/
-    const qrResponse = await fetch(
-      "https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" +
-        document.URL +
-        "&color=" +
-        hex.substring(1) +
-        "&format=svg"
-    );
-    const blob = await qrResponse.blob();
-    const objectURL = URL.createObjectURL(blob);
-
-    // Update corresponding elements with the fetched values
-    // Updated so this would only pull on color.html page as it was erroring on index.html
+    // Check if the current page is "color.html" before updating the elements
     if (window.location.pathname.endsWith("color.html")) {
       document.getElementById("rgb-value").textContent = rgb;
       document.getElementById("hex-value").textContent = hex;
@@ -84,9 +71,20 @@ async function updateColorData(hexColor) {
       document.getElementById("cmyk-value").textContent = cmyk;
       document.getElementById("hsl-value").textContent = hsl;
       document.getElementById("color-name").textContent = imageNamed;
+
+      // Clear the existing QR image if any
+      const qrElement = document.getElementById("qr");
+      qrElement.innerHTML = "";
+
+      // Create a new QR image element
       const qrImg = document.createElement("img");
-      qrImg.src = objectURL;
-      document.getElementById("qr").appendChild(qrImg);
+      qrImg.src =
+        "https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" +
+        encodeURIComponent(document.URL) +
+        "&color=" +
+        hex.substring(1) +
+        "&format=svg";
+      qrElement.appendChild(qrImg);
     }
   } catch (error) {
     console.error("Error updating color data:", error);
@@ -192,16 +190,6 @@ if (color) {
 
 setColorForRandomFill();
 
-const lastColor = localStorage.getItem("color");
-
-if (window.location.pathname.endsWith("index.html")) {
-  if (lastColor) {
-    const lastColorDisplay = document.getElementById("last-color-display");
-    lastColorDisplay.style.background = "#" + lastColor;
-    lastColorDisplay.style.display = "block";
-  }
-}
-
 if (window.location.pathname.endsWith("index.html")) {
   document
     .getElementById("generate-btn")
@@ -223,6 +211,69 @@ if (window.location.pathname.endsWith("index.html")) {
       }
     });
 }
+
+// Call this function to update the last searched colors display
+function updateLastColorsDisplay() {
+  // Get the colors from local storage
+  const lastColors = JSON.parse(localStorage.getItem("lastColors")) || [];
+
+  // Update the display
+  for (let i = 0; i < 5; i++) {
+    const colorDisplay = document.getElementById(`last-color-display-${i + 1}`);
+    if (lastColors[i]) {
+      colorDisplay.style.backgroundColor = "#" + lastColors[i];
+      colorDisplay.textContent = "#" + lastColors[i];
+      colorDisplay.style.cursor = "pointer";
+      setTextBrightness(colorDisplay, lastColors[i]);
+
+      // Add click event listener
+      colorDisplay.onclick = function () {
+        // Redirect to color.html with color parameter
+        window.location.href = "color.html?color=" + lastColors[i];
+      };
+    } else {
+      colorDisplay.style.backgroundColor = "#FFFFFF";
+      colorDisplay.textContent = "";
+    }
+  }
+}
+
+if (window.location.pathname.endsWith("index.html")) {
+  document
+    .getElementById("generate-btn")
+    .addEventListener("click", function () {
+      let inputColor = document.getElementById("color-input").value;
+
+      // Check if input is RGB or HEX
+      if (inputColor.includes(",")) {
+        // If it's RGB, convert it to HEX
+        inputColor = rgbToHex(inputColor);
+      }
+
+      if (inputColor) {
+        // Save the color to local storage
+        let lastColors = JSON.parse(localStorage.getItem("lastColors")) || [];
+        lastColors.unshift(inputColor);
+        if (lastColors.length > 5) {
+          lastColors = lastColors.slice(0, 5);
+        }
+        localStorage.setItem("lastColors", JSON.stringify(lastColors));
+
+        window.location.href = "color.html?color=" + inputColor;
+      } else {
+        localStorage.removeItem("color");
+        window.location.href = "color.html";
+      }
+
+      // Update the last searched colors display
+      updateLastColorsDisplay();
+    });
+}
+
+window.onload = function () {
+  updateLastColorsDisplay();
+};
+
 // End of Aviad Code
 
 // Start of Chris Code:
