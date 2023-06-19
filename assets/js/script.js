@@ -63,20 +63,7 @@ async function updateColorData(hexColor) {
     const hsl = data.hsl.value;
     const imageNamed = data.name.value;
 
-    // Fetch QR API with background
-    // https://goqr.me/api/
-    const qrResponse = await fetch(
-      "https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" +
-        document.URL +
-        "&color=" +
-        hex.substring(1) +
-        "&format=svg"
-    );
-    const blob = await qrResponse.blob();
-    const objectURL = URL.createObjectURL(blob);
-
-    // Update corresponding elements with the fetched values
-    // Updated so this would only pull on color.html page as it was erroring on index.html
+    // Check if the current page is "color.html" before updating the elements
     if (window.location.pathname.endsWith("color.html")) {
       document.getElementById("rgb-value").textContent = rgb;
       document.getElementById("hex-value").textContent = hex;
@@ -84,9 +71,20 @@ async function updateColorData(hexColor) {
       document.getElementById("cmyk-value").textContent = cmyk;
       document.getElementById("hsl-value").textContent = hsl;
       document.getElementById("color-name").textContent = imageNamed;
+
+      // Clear the existing QR image if any
+      const qrElement = document.getElementById("qr");
+      qrElement.innerHTML = "";
+
+      // Create a new QR image element
       const qrImg = document.createElement("img");
-      qrImg.src = objectURL;
-      document.getElementById("qr").appendChild(qrImg);
+      qrImg.src =
+        "https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" +
+        encodeURIComponent(document.URL) +
+        "&color=" +
+        hex.substring(1) +
+        "&format=svg";
+      qrElement.appendChild(qrImg);
     }
   } catch (error) {
     console.error("Error updating color data:", error);
@@ -194,11 +192,25 @@ setColorForRandomFill();
 
 const lastColor = localStorage.getItem("color");
 
-if (window.location.pathname.endsWith("index.html")) {
-  if (lastColor) {
-    const lastColorDisplay = document.getElementById("last-color-display");
-    lastColorDisplay.style.background = "#" + lastColor;
-  }
+// For each card, set its background color to the last five colors the user looked for
+function setColorForLastFiveColors() {
+  const lastColors = localStorage.getItem("color")
+    ? localStorage.getItem("color").split(",").reverse()
+    : [];
+
+  const cards = document.querySelectorAll(".last-color-display");
+  cards.forEach((card, index) => {
+    if (index < lastColors.length) {
+      const color = lastColors[index];
+      card.style.backgroundColor = "#" + color;
+      card.style.cursor = "pointer";
+      card.textContent = "#" + color;
+      setTextBrightness(card, color);
+      card.onclick = function () {
+        window.open("color.html?color=" + color, "_self");
+      };
+    }
+  });
 }
 
 if (window.location.pathname.endsWith("index.html")) {
