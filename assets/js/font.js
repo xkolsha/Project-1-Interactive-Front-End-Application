@@ -20,63 +20,65 @@ fetch("footer.html")
 // Font Generator
 
 fetch(
-    "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      const selectFont = document.getElementById("font-select");
-      data.items.forEach((font) => {
-        const option = document.createElement("option");
-        option.value = font.family;
-        option.textContent = font.family;
-        selectFont.appendChild(option);
-      });
-    });
-  
-  // Function to update the font
-  function updateFont() {
-    
-    const inputText = document.getElementById("text-input").value;
+  "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
+)
+  .then((response) => response.json())
+  .then((data) => {
     const selectFont = document.getElementById("font-select");
-    const selectStyle = document.getElementById("style-select");
-    const inputSize = document.getElementById("size-input");
-    const selectedFont = selectFont.value;
-    const selectedStyle = selectStyle.value;
-    const textSize = inputSize.value;
-    const outputText = document.getElementById("output-text");
-  
-    outputText.style.fontFamily = selectedFont;
-    outputText.style.fontStyle = selectedStyle;
-    outputText.style.fontSize = `${textSize}px`;
-    outputText.textContent = inputText;
-  
+    data.items.forEach((font) => {
+      const option = document.createElement("option");
+      option.value = font.family;
+      option.textContent = font.family;
+      selectFont.appendChild(option);
+    });
+  });
 
-    
-    var styleSheetEl = document.createElement("link");
-    var headList = document.getElementById('head-0');
-    
-    styleSheetEl.rel = "stylesheet";
-    styleSheetEl.href = "https://fonts.googleapis.com/css?family=" + selectedFont;
-    
-    
-    document.head.appendChild(styleSheetEl);
-    
-    outputText.appendChild(styleSheetEl.cloneNode(true));
-  
-   
-    const fontLink = document.createElement("a");
-    fontLink.href = styleSheetEl.href;
-    fontLink.textContent = styleSheetEl.href;
-    outputText.appendChild(fontLink);
+// Function to update the font
+function updateFont() {
+  const inputText = document.getElementById("text-input").value;
+  const selectFont = document.getElementById("font-select");
+  const selectStyle = document.getElementById("style-select");
+  const inputSize = document.getElementById("size-input");
+  const selectedFont = selectFont.value;
+  const selectedStyle = selectStyle.value;
+  const textSize = inputSize.value;
+  const outputText = document.getElementById("output-text");
 
-    headList.removeChild(headList.lastChild);
+  outputText.style.fontFamily = selectedFont;
+  outputText.style.fontStyle = selectedStyle;
+  outputText.style.fontSize = `${textSize}px`;
+  outputText.textContent = inputText;
 
-  }
-  
-  //Event Listeneres
-  document.getElementById("size-input").addEventListener("input", updateFont);
-  document.getElementById("text-input").addEventListener("input", updateFont);
-  document.getElementById("font-select").addEventListener("change", updateFont);
-  document.getElementById("style-select").addEventListener("change", updateFont);
-  
-  // End of Chris Code
+  var styleSheetEl = document.createElement("link");
+  var headList = document.getElementById("head-0");
+
+  styleSheetEl.rel = "stylesheet";
+  styleSheetEl.href = "https://fonts.googleapis.com/css?family=" + selectedFont;
+
+  document.head.appendChild(styleSheetEl);
+
+  outputText.appendChild(styleSheetEl.cloneNode(true));
+
+  const fontLink = document.createElement("a");
+  fontLink.href = styleSheetEl.href;
+  fontLink.textContent = styleSheetEl.href;
+  outputText.appendChild(fontLink);
+
+  headList.removeChild(headList.lastChild);
+}
+
+//Event Listeneres
+document.getElementById("size-input").addEventListener("input", updateFont);
+document.getElementById("text-input").addEventListener("input", updateFont);
+document.getElementById("font-select").addEventListener("change", updateFont);
+document.getElementById("style-select").addEventListener("change", updateFont);
+
+// End of Chris Code
+
+//start of Aviad code
+
+// function to add an event listener that updates the text
+document.getElementById("size-input").addEventListener("input", function () {
+  document.getElementById("size-display").textContent = this.value;
+  updateFont();
+});
