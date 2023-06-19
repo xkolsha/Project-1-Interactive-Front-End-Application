@@ -223,7 +223,14 @@ function updateLastColorsDisplay() {
     if (lastColors[i]) {
       colorDisplay.style.backgroundColor = "#" + lastColors[i];
       colorDisplay.textContent = "#" + lastColors[i];
+      colorDisplay.style.cursor = "pointer";
       setTextBrightness(colorDisplay, lastColors[i]);
+
+      // Add click event listener
+      colorDisplay.onclick = function () {
+        // Redirect to color.html with color parameter
+        window.location.href = "color.html?color=" + lastColors[i];
+      };
     } else {
       colorDisplay.style.backgroundColor = "#FFFFFF";
       colorDisplay.textContent = "";
