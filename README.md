@@ -48,7 +48,7 @@ SO THAT I can create harmonious color schemes for my projects.
 
 https://github.com/xkolsha/Project-1-Interactive-Front-End-Application
 
-## Deployed Applicatio
+## Deployed Application
 
 https://xkolsha.github.io/Project-1-Interactive-Front-End-Application/index.html
 
