@@ -198,7 +198,6 @@ if (window.location.pathname.endsWith("index.html")) {
   if (lastColor) {
     const lastColorDisplay = document.getElementById("last-color-display");
     lastColorDisplay.style.background = "#" + lastColor;
-    lastColorDisplay.style.display = "block";
   }
 }
 
