@@ -43,11 +43,10 @@ function updateFont() {
   const selectedFont = selectFont.value || "Roboto";
   const inputText = document.getElementById("text-input");
   const inputSize = document.getElementById("size-input");
-  const selectedStyle = document.querySelector(
-    'input[name="style"]:checked'
-  ).value;
+  const selectedStyle = document.querySelector('input[name="style"]:checked').value;
   const textSize = inputSize.value;
   const outputText = document.getElementById("output-text");
+  const outputUrl = document.getElementById("output-url");
 
   // if the user has not entered any text or size, set the default values
   if (!inputText.value) {
@@ -63,14 +62,14 @@ function updateFont() {
   outputText.style.fontSize = `${textSize}px`;
   outputText.textContent = inputText.value;
 
-  //   if the user has not selected any style, set the default values
+  // if the user has not selected any style, set the default values
   if (selectedStyle === "italic" || selectedStyle === "bold italic") {
     outputText.style.fontStyle = "italic";
   } else {
     outputText.style.fontStyle = "normal";
   }
 
-  //   if the user has not selected any style, set the default values
+  // if the user has not selected any style, set the default values
   if (selectedStyle === "bold" || selectedStyle === "bold italic") {
     outputText.style.fontWeight = "bold";
   } else {
@@ -81,20 +80,21 @@ function updateFont() {
   const headList = document.getElementById("head-0");
 
   styleSheetEl.rel = "stylesheet";
-  styleSheetEl.href = `https://fonts.googleapis.com/css?family=${selectedFont.replace(
-    " ",
-    "+"
-  )}`;
-  document.head.appendChild(styleSheetEl);
+  styleSheetEl.href = `https://fonts.googleapis.com/css?family=${selectedFont.replace(" ", "+")}`;
 
-  outputText.appendChild(styleSheetEl.cloneNode(true));
+  const existingFontLink = outputUrl.querySelector("a");
+  if (existingFontLink) {
+    outputUrl.removeChild(existingFontLink);
+  }
+
+  document.head.appendChild(styleSheetEl);
 
   const fontLink = document.createElement("a");
   fontLink.href = styleSheetEl.href;
   fontLink.textContent = styleSheetEl.href;
-  outputText.appendChild(fontLink);
+  outputUrl.appendChild(fontLink);
 
-  headList.removeChild(headList.lastChild);
+  
 }
 
 // event listeners for the font selector
