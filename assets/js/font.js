@@ -58,10 +58,19 @@ fetch(
     styleSheetEl.rel = "stylesheet";
     styleSheetEl.href = "https://fonts.googleapis.com/css?family=" + selectedFont;
     
-    headList.removeChild(headList.lastChild);
+    
     document.head.appendChild(styleSheetEl);
+    
+    outputText.appendChild(styleSheetEl.cloneNode(true));
   
-  
+   
+    const fontLink = document.createElement("a");
+    fontLink.href = styleSheetEl.href;
+    fontLink.textContent = styleSheetEl.href;
+    outputText.appendChild(fontLink);
+
+    headList.removeChild(headList.lastChild);
+
   }
   
   //Event Listeneres
