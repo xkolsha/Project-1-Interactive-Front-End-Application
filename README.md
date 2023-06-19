@@ -41,7 +41,8 @@ SO THAT I can create harmonious color schemes for my projects.
 
 ## Mock Up
 
-![Mock up of the website](./assets/images/Web%20capture_13-6-2023_211247_127.0.0.1.jpeg)
+![Mock up of the website](./assets/images/Web%20capture_19-6-2023_174656_127.0.0.1.jpeg)
+![Mock up of the website](./assets/images/Web%20capture_19-6-2023_174741_127.0.0.1.jpeg)
 
 ## GitHub Repository
 
