@@ -41,15 +41,24 @@
             <div class="field">
               <label class="label">Select Style</label>
               <div class="control">
-                <div class="select">
-                  <select id="style-select">
-                    <option value="">Select a style</option>
-                    <option value="normal">Normal</option>
-                    <option value="italic">Italic</option>
-                    <option value="bold">Bold</option>
-                    <option value="bold italic">Bold Italic</option>
-                  </select>
-                </div>
+                <label class="radio">
+                  <input type="radio" name="style" value="normal" checked />
+                  Normal
+                </label>
+                <label class="radio">
+                  <input type="radio" name="style" value="italic" />
+                  <span style="font-style: italic">Italic</span>
+                </label>
+                <label class="radio">
+                  <input type="radio" name="style" value="bold" />
+                  <span style="font-weight: bold">Bold</span>
+                </label>
+                <label class="radio">
+                  <input type="radio" name="style" value="bold italic" />
+                  <span style="font-weight: bold; font-style: italic"
+                    >Bold Italic</span
+                  >
+                </label>
               </div>
             </div>
           </div>
