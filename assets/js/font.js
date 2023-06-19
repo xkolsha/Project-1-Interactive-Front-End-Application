@@ -1,3 +1,4 @@
+// function to add the navbar to the page and make it responsive
 fetch("navbar.html")
   .then((response) => response.text())
   .then((data) => {
@@ -17,8 +18,7 @@ fetch("footer.html")
   .then((response) => response.text())
   .then((data) => (document.getElementById("footer").innerHTML = data));
 
-// Font Generator
-
+// function to add the font selector to the page (Roboto is the default font)
 fetch(
   "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBSHB0WYooQ8SY0ZCk7njB-0JnIhX5JZrI"
 )
@@ -30,27 +30,55 @@ fetch(
       option.value = font.family;
       option.textContent = font.family;
       selectFont.appendChild(option);
+
+      if (font.family === "Roboto") {
+        option.selected = true;
+      }
     });
   });
 
-// Function to update the font
+// function to update the font on the page
 function updateFont() {
-  const inputText = document.getElementById("text-input").value;
+  const inputText = document.getElementById("text-input");
   const selectFont = document.getElementById("font-select");
-  const selectStyle = document.getElementById("style-select");
   const inputSize = document.getElementById("size-input");
   const selectedFont = selectFont.value;
-  const selectedStyle = selectStyle.value;
+  const selectedStyle = document.querySelector(
+    'input[name="style"]:checked'
+  ).value;
   const textSize = inputSize.value;
   const outputText = document.getElementById("output-text");
 
-  outputText.style.fontFamily = selectedFont;
-  outputText.style.fontStyle = selectedStyle;
-  outputText.style.fontSize = `${textSize}px`;
-  outputText.textContent = inputText;
+  // if the user has not entered any text or size, set the default values
+  if (!inputText.value) {
+    inputText.value = "This is a great choice!";
+  }
 
-  var styleSheetEl = document.createElement("link");
-  var headList = document.getElementById("head-0");
+  // if the user has not entered any text or size, set the default values
+  if (!inputSize.value) {
+    inputSize.value = "35";
+  }
+
+  outputText.style.fontFamily = selectedFont;
+  outputText.style.fontSize = `${textSize}px`;
+  outputText.textContent = inputText.value;
+
+  //   if the user has not selected any style, set the default values
+  if (selectedStyle === "italic" || selectedStyle === "bold italic") {
+    outputText.style.fontStyle = "italic";
+  } else {
+    outputText.style.fontStyle = "normal";
+  }
+
+  //   if the user has not selected any style, set the default values
+  if (selectedStyle === "bold" || selectedStyle === "bold italic") {
+    outputText.style.fontWeight = "bold";
+  } else {
+    outputText.style.fontWeight = "normal";
+  }
+
+  const styleSheetEl = document.createElement("link");
+  const headList = document.getElementById("head-0");
 
   styleSheetEl.rel = "stylesheet";
   styleSheetEl.href = "https://fonts.googleapis.com/css?family=" + selectedFont;
@@ -67,18 +95,16 @@ function updateFont() {
   headList.removeChild(headList.lastChild);
 }
 
-//Event Listeneres
-document.getElementById("size-input").addEventListener("input", updateFont);
-document.getElementById("text-input").addEventListener("input", updateFont);
-document.getElementById("font-select").addEventListener("change", updateFont);
-document.getElementById("style-select").addEventListener("change", updateFont);
-
-// End of Chris Code
-
-//start of Aviad code
-
-// function to add an event listener that updates the text
+// event listeners for the font selector
 document.getElementById("size-input").addEventListener("input", function () {
   document.getElementById("size-display").textContent = this.value;
   updateFont();
 });
+document.getElementById("text-input").addEventListener("input", updateFont);
+document.getElementById("font-select").addEventListener("change", updateFont);
+document.querySelectorAll('input[name="style"]').forEach((element) => {
+  element.addEventListener("change", updateFont);
+});
+
+// event listener for the page load
+window.onload = updateFont;
